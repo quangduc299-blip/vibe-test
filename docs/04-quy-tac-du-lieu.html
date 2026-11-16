@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 Quy tắc &amp; dữ liệu — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html" aria-current="page">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">04 · Quy tắc &amp; dữ liệu</span>
+    <h1>Quy tắc game &amp; dữ liệu</h1>
+    <p class="lead">Mô tả chính xác cách game vận hành: trạng thái, độ khó, chọn ô, đồng hồ, tính điểm và dữ liệu lưu trữ. Đây là căn cứ khi viết code và khi test.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Trong trang này">
+    <span class="eyebrow">Trong trang này</span>
+    <ol>
+      <li><a href="#trang-thai-game">Trạng thái game</a></li>
+      <li><a href="#trang-thai-o">Trạng thái ô</a></li>
+      <li><a href="#do-kho">Độ khó theo chặng</a></li>
+      <li><a href="#sinh-lon">Quy tắc sinh lợn &amp; chọn ô</a></li>
+      <li><a href="#dong-ho">Đồng hồ</a></li>
+      <li><a href="#tinh-diem">Tính điểm</a></li>
+      <li><a href="#tam-dung">Tạm dừng &amp; tiếp tục</a></li>
+      <li><a href="#luu-tru">Dữ liệu lưu trữ</a></li>
+      <li><a href="#runtime">Dữ liệu trong lượt chơi</a></li>
+      <li><a href="#hang-so">Bảng hằng số</a></li>
+      <li><a href="#bien">Tình huống biên</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="trang-thai-game"><span class="num">1</span>Trạng thái game</h2>
+  <p>Tại mọi thời điểm, game ở đúng <strong>một</strong> trong các trạng thái sau. Mọi thao tác không hợp lệ với trạng thái hiện tại đều bị bỏ qua.</p>
+  <div class="flow">
+    <span class="node">IDLE</span><span class="arrow">→</span><span class="node">COUNTDOWN</span><span class="arrow">⇄</span><span class="node">PLAYING</span><span class="arrow">→</span><span class="node">ENDING</span><span class="arrow">→</span><span class="node">RESULT</span>
+    <span class="arrow">·</span><span class="node">PAUSED</span>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Trạng thái</th><th>Màn hình</th><th>Đồng hồ</th><th>Sinh lợn</th><th>Lưới nhận thao tác</th></tr></thead>
+    <tbody>
+      <tr><td><code>IDLE</code></td><td>S1</td><td>—</td><td>Không</td><td>—</td></tr>
+      <tr><td><code>COUNTDOWN</code></td><td>S2 trên S3</td><td>Đứng yên</td><td>Không</td><td>Không</td></tr>
+      <tr><td><code>PLAYING</code></td><td>S3</td><td>Chạy</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>PAUSED</code></td><td>S4 trên S3</td><td>Đứng yên</td><td>Không</td><td>Không</td></tr>
+      <tr><td><code>ENDING</code></td><td>S3 + “Hết giờ!”</td><td>= 0</td><td>Không</td><td>Không</td></tr>
+      <tr><td><code>RESULT</code></td><td>S5</td><td>—</td><td>Không</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Từ</th><th>Sự kiện</th><th>Đến</th><th>Việc phải làm</th></tr></thead>
+    <tbody>
+      <tr><td>IDLE</td><td>Bấm “Bắt đầu”</td><td>COUNTDOWN</td><td>Khởi tạo lượt mới (mục 9), kích hoạt âm thanh.</td></tr>
+      <tr><td>COUNTDOWN</td><td>Đếm xong</td><td>PLAYING</td><td>Đặt thời điểm kết thúc = bây giờ + thời gian còn lại; hẹn lần sinh lợn đầu tiên sau 300 ms.</td></tr>
+      <tr><td>COUNTDOWN / PLAYING</td><td>Trang bị ẩn</td><td>PAUSED</td><td>Mục 7.</td></tr>
+      <tr><td>PAUSED</td><td>Bấm “Tiếp tục”</td><td>COUNTDOWN</td><td>Giữ nguyên điểm và thời gian còn lại.</td></tr>
+      <tr><td>PLAYING</td><td>Thời gian còn lại ≤ 0</td><td>ENDING</td><td>Huỷ mọi hẹn giờ, xoá mọi lợn, khoá lưới, phát âm hết giờ, cập nhật kỷ lục.</td></tr>
+      <tr><td>ENDING</td><td>Sau 800 ms</td><td>RESULT</td><td>Hiện điểm và kỷ lục.</td></tr>
+      <tr><td>RESULT</td><td>Bấm “Chơi lại”</td><td>COUNTDOWN</td><td>Khởi tạo lượt mới.</td></tr>
+      <tr><td>RESULT</td><td>Bấm “Về màn hình chính”</td><td>IDLE</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="trang-thai-o"><span class="num">2</span>Trạng thái ô</h2>
+  <div class="flow">
+    <span class="node">EMPTY</span><span class="arrow">→ sinh lợn →</span><span class="node">UP</span><span class="arrow">→ bấm trúng →</span><span class="node">HIT</span><span class="arrow">→ 250 ms →</span><span class="node">EMPTY</span>
+  </div>
+  <ul>
+    <li><code>UP</code> → <code>EMPTY</code>: hết thời gian hiện mà không bị đập (lợn trượt xuống 120 ms, chỉ là hoạt ảnh; ngay khi hết thời gian hiện, ô đã là <code>EMPTY</code> về mặt logic).</li>
+    <li>Mỗi ô có tối đa 1 hẹn giờ đang chờ (hết thời gian hiện hoặc kết thúc <code>HIT</code>). Khi đổi trạng thái phải huỷ hẹn giờ cũ của ô.</li>
+    <li>Một ô được tính là “đang bận” khi ở <code>UP</code> hoặc <code>HIT</code>.</li>
+  </ul>
+
+  <h2 id="do-kho"><span class="num">3</span>Độ khó theo chặng</h2>
+  <p>Chặng được xác định theo <strong>thời gian đã chơi</strong> (30 − thời gian còn lại) tại thời điểm sinh lợn. Các giá trị “hiện” và “nghỉ” được lấy ngẫu nhiên đều trong khoảng.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Chặng</th><th>Thời gian đã chơi</th><th>Đồng hồ hiển thị</th><th>Tối đa lợn cùng lúc</th><th>Thời gian hiện</th><th>Khoảng nghỉ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · Khởi động</strong></td><td>0 – &lt;10 s</td><td>30 → 21</td><td>1</td><td>0.90 – 1.00 s</td><td>0.60 – 0.80 s</td></tr>
+      <tr><td><strong>2 · Tăng tốc</strong></td><td>10 – &lt;20 s</td><td>20 → 11</td><td>2</td><td>0.75 – 0.90 s</td><td>0.45 – 0.65 s</td></tr>
+      <tr><td><strong>3 · Nước rút</strong></td><td>20 – 30 s</td><td>10 → 0</td><td>2</td><td>0.60 – 0.75 s</td><td>0.30 – 0.50 s</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">
+    <span class="eyebrow">Khớp với YEU-CAU.md</span>
+    <p>Thời gian hiện luôn nằm trong 0.6–1 s, khoảng nghỉ trong 0.3–0.8 s, tối đa 2 lợn cùng lúc, đúng như gợi ý của yêu cầu gốc.</p>
+  </div>
+
+  <h2 id="sinh-lon"><span class="num">4</span>Quy tắc sinh lợn &amp; chọn ô</h2>
+  <h3>4.1 Khi nào sinh lợn</h3>
+  <ol>
+    <li>Luôn có tối đa <strong>một</strong> lịch hẹn “sinh lợn” đang chờ. Nếu đã có thì không tạo thêm.</li>
+    <li>Sau mỗi sự kiện <em>lợn xuất hiện</em> hoặc <em>ô trở về EMPTY</em>: nếu số ô đang bận &lt; tối đa của chặng hiện tại và chưa có lịch hẹn, tạo lịch hẹn sau một khoảng nghỉ ngẫu nhiên của chặng hiện tại.</li>
+    <li>Khi lịch hẹn đến: nếu game vẫn ở <code>PLAYING</code> và còn chỗ, sinh 1 lợn, sau đó áp dụng lại bước 2. Nếu hết chỗ, bỏ lịch hẹn và chờ sự kiện kế tiếp.</li>
+    <li>Không sinh lợn nếu thời gian còn lại &lt; 300 ms (tránh lợn hiện rồi biến mất ngay lập tức vì hết giờ).</li>
+  </ol>
+  <p>Kết quả: chặng 1 luôn chỉ có 1 lợn, giữa hai con có khoảng nghỉ. Từ chặng 2, lợn thứ hai có thể xuất hiện khi con thứ nhất vẫn đang hiện.</p>
+
+  <h3>4.2 Chọn ô</h3>
+  <ol>
+    <li>Tập ứng viên = 9 ô, trừ các ô đang bận, trừ ô của lần xuất hiện ngay trước đó.</li>
+    <li>Chọn ngẫu nhiên đều một ô trong tập ứng viên (luôn còn ít nhất 6 ô).</li>
+    <li>Ghi nhớ ô vừa chọn làm “ô lần trước”.</li>
+  </ol>
+  <p>Mỗi lần xuất hiện có một mã số tăng dần (<code>spawnId</code>). Mọi hẹn giờ của ô đều kèm mã này. Khi hẹn giờ chạy mà mã đã khác thì bỏ qua, nhờ vậy không có hẹn giờ cũ nào xoá nhầm lợn mới.</p>
+
+  <h2 id="dong-ho"><span class="num">5</span>Đồng hồ</h2>
+  <ul>
+    <li>Thời lượng lượt: <strong>30 000 ms</strong>, chỉ tính trong trạng thái <code>PLAYING</code>.</li>
+    <li>Khi vào <code>PLAYING</code>: <code>endAt = performance.now() + remainingMs</code>.</li>
+    <li>Mỗi khung hình (<code>requestAnimationFrame</code>): <code>remainingMs = max(0, endAt − now)</code>.</li>
+    <li>Số hiển thị = <code>ceil(remainingMs / 1000)</code>, nên hiện 30 ngay khi bắt đầu và về 0 đúng lúc hết giờ.</li>
+    <li>Thanh tiến trình = <code>remainingMs / 30000</code>.</li>
+    <li>Khi <code>remainingMs</code> = 0, chuyển ngay sang <code>ENDING</code> trong cùng khung hình.</li>
+    <li>Cảnh báo sắp hết giờ khi số hiển thị ≤ 5.</li>
+  </ul>
+
+  <h2 id="tinh-diem"><span class="num">6</span>Tính điểm</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Tình huống khi bấm vào ô</th><th>Kết quả</th></tr></thead>
+    <tbody>
+      <tr><td>Game <code>PLAYING</code>, ô <code>UP</code>, <code>now &lt; endAt</code></td><td>+1 điểm, ô → <code>HIT</code>, hiệu ứng và âm thanh</td></tr>
+      <tr><td>Ô <code>EMPTY</code> hoặc <code>HIT</code></td><td>Không đổi</td></tr>
+      <tr><td>Game không ở <code>PLAYING</code></td><td>Không đổi</td></tr>
+      <tr><td><code>now ≥ endAt</code> (dù ô còn hiện do khung hình chưa kịp cập nhật)</td><td>Không đổi, chuyển sang <code>ENDING</code></td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Nhận thao tác bằng <code>pointerdown</code> trên chính ô đó (không dùng <code>click</code>, để giảm độ trễ trên điện thoại và tránh tính 2 lần).</li>
+    <li>Điểm là số nguyên ≥ 0, chỉ tăng bằng đúng 1 bước mỗi lần trúng.</li>
+    <li>Vì ô chuyển sang <code>HIT</code> ngay lập tức nên các lần bấm tiếp theo vào cùng lợn sẽ bị bỏ qua.</li>
+  </ul>
+
+  <h2 id="tam-dung"><span class="num">7</span>Tạm dừng &amp; tiếp tục</h2>
+  <ol>
+    <li>Nghe sự kiện <code>visibilitychange</code>. Khi <code>document.hidden</code> = true và game ở <code>COUNTDOWN</code> hoặc <code>PLAYING</code>: chuyển sang <code>PAUSED</code>.</li>
+    <li>Lưu <code>remainingMs</code> hiện tại, huỷ mọi hẹn giờ (sinh lợn, ô, đếm ngược), đưa mọi ô về <code>EMPTY</code>. Lợn đang hiện bị mất và không tính điểm.</li>
+    <li>Khi người chơi bấm “Tiếp tục”: vào <code>COUNTDOWN</code>, đếm xong thì vào <code>PLAYING</code> với <code>remainingMs</code> đã lưu.</li>
+    <li>Chặng độ khó được tính theo thời gian đã chơi, nên tiếp tục vẫn đúng chặng.</li>
+  </ol>
+
+  <h2 id="luu-tru"><span class="num">8</span>Dữ liệu lưu trữ (<code>localStorage</code>)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Khoá</th><th>Kiểu (lưu dạng chuỗi)</th><th>Mặc định</th><th>Ghi khi</th><th>Kiểm tra khi đọc</th></tr></thead>
+    <tbody>
+      <tr><td><code>dapLon.highScore</code></td><td>Số nguyên ≥ 0, ví dụ <code>"27"</code></td><td>0</td><td>Kết thúc lượt và điểm &gt; kỷ lục cũ</td><td>Không phải số nguyên ≥ 0 hoặc &gt; 9999 thì coi là 0</td></tr>
+      <tr><td><code>dapLon.muted</code></td><td><code>"1"</code> = tắt tiếng, <code>"0"</code> = bật</td><td><code>"0"</code></td><td>Bấm nút loa</td><td>Khác <code>"1"</code> thì coi là bật tiếng</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Mọi thao tác đọc/ghi đặt trong <code>try/catch</code>. Nếu lỗi, dùng giá trị trong bộ nhớ và không hiện lỗi cho người chơi.</li>
+    <li>Kỷ lục mới khi <code>score &gt; highScore</code> (lớn hơn hẳn; bằng thì không tính là kỷ lục mới).</li>
+    <li>Không lưu bất kỳ thông tin cá nhân nào.</li>
+  </ul>
+
+  <h2 id="runtime"><span class="num">9</span>Dữ liệu trong lượt chơi</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Trường</th><th>Kiểu</th><th>Giá trị khi khởi tạo lượt</th><th>Ý nghĩa</th></tr></thead>
+    <tbody>
+      <tr><td><code>state</code></td><td>chuỗi</td><td><code>"COUNTDOWN"</code></td><td>Trạng thái game (mục 1)</td></tr>
+      <tr><td><code>score</code></td><td>số nguyên</td><td>0</td><td>Điểm lượt hiện tại</td></tr>
+      <tr><td><code>remainingMs</code></td><td>số</td><td>30000</td><td>Thời gian còn lại</td></tr>
+      <tr><td><code>endAt</code></td><td>số | null</td><td>null</td><td>Mốc kết thúc theo <code>performance.now()</code></td></tr>
+      <tr><td><code>cells</code></td><td>mảng 9 phần tử</td><td>9 × <code>{ state: "EMPTY", spawnId: null, timer: null }</code></td><td>Trạng thái từng ô</td></tr>
+      <tr><td><code>lastCell</code></td><td>số 0–8 | null</td><td>null</td><td>Ô của lần xuất hiện trước</td></tr>
+      <tr><td><code>nextSpawnTimer</code></td><td>mã hẹn giờ | null</td><td>null</td><td>Lịch hẹn sinh lợn đang chờ</td></tr>
+      <tr><td><code>spawnSeq</code></td><td>số nguyên</td><td>0</td><td>Bộ đếm để tạo <code>spawnId</code></td></tr>
+      <tr><td><code>highScore</code></td><td>số nguyên</td><td>Đọc từ lưu trữ</td><td>Kỷ lục hiện tại</td></tr>
+      <tr><td><code>isNewRecord</code></td><td>boolean</td><td>false</td><td>Lượt này có phá kỷ lục không</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn">
+    <span class="eyebrow">Quy tắc khởi tạo</span>
+    <p>Khởi tạo lượt mới phải <strong>huỷ toàn bộ</strong> hẹn giờ và khung hình đang chờ của lượt trước <em>trước khi</em> gán lại dữ liệu. Đây là điều kiện để đạt DoD 8 (chơi lại nhiều lượt không bị lỗi tích luỹ).</p>
+  </div>
+
+  <h2 id="hang-so"><span class="num">10</span>Bảng hằng số</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Tên</th><th>Giá trị</th><th>Dùng ở</th></tr></thead>
+    <tbody>
+      <tr><td><code>GRID_SIZE</code></td><td>3 (9 ô)</td><td>Lưới</td></tr>
+      <tr><td><code>ROUND_MS</code></td><td>30 000</td><td>Đồng hồ</td></tr>
+      <tr><td><code>COUNTDOWN_STEP_MS</code></td><td>1 000 (×3) + 400 cho “Đập!”</td><td>Đếm 3-2-1</td></tr>
+      <tr><td><code>FIRST_SPAWN_DELAY_MS</code></td><td>300</td><td>Lợn đầu tiên sau khi bắt đầu</td></tr>
+      <tr><td><code>MIN_REMAINING_TO_SPAWN_MS</code></td><td>300</td><td>Không sinh lợn sát giờ</td></tr>
+      <tr><td><code>HIT_MS</code></td><td>250</td><td>Thời gian trạng thái HIT</td></tr>
+      <tr><td><code>SLIDE_MS</code></td><td>120</td><td>Hoạt ảnh trồi lên / thụt xuống</td></tr>
+      <tr><td><code>ENDING_MS</code></td><td>800</td><td>Hiện “Hết giờ!” trước khi sang kết quả</td></tr>
+      <tr><td><code>WARN_SECONDS</code></td><td>5</td><td>Cảnh báo sắp hết giờ</td></tr>
+      <tr><td><code>PHASES</code></td><td>Bảng ở mục 3</td><td>Độ khó</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="bien"><span class="num">11</span>Tình huống biên</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Tình huống</th><th>Xử lý mong đợi</th></tr></thead>
+    <tbody>
+      <tr><td>Bấm vào lợn đúng khung hình nó hết thời gian hiện</td><td>Theo trạng thái ô lúc xử lý sự kiện: còn <code>UP</code> thì tính, đã <code>EMPTY</code> thì không.</td></tr>
+      <tr><td>Hai ngón chạm cùng lúc vào hai lợn khác nhau</td><td>Tính cả hai (+2).</td></tr>
+      <tr><td>Hai ngón chạm cùng lúc vào một lợn</td><td>Chỉ +1.</td></tr>
+      <tr><td>Bấm “Bắt đầu” / “Chơi lại” 2 lần thật nhanh</td><td>Chỉ một lượt được tạo; lần bấm thứ hai bị bỏ qua vì trạng thái đã khác.</td></tr>
+      <tr><td>Rời tab đúng lúc hết giờ</td><td>Nếu đã vào <code>ENDING</code> thì không tạm dừng, vẫn sang kết quả.</td></tr>
+      <tr><td>Trình duyệt chặn <code>localStorage</code></td><td>Game chạy bình thường, kỷ lục chỉ giữ đến khi tải lại trang.</td></tr>
+      <tr><td>Máy chậm, khung hình bị trễ</td><td>Đồng hồ vẫn đúng vì tính theo <code>endAt</code>; thời gian hiện của lợn có thể dài thêm tối đa 1 khung hình.</td></tr>
+      <tr><td>Điểm 0 khi kỷ lục cũng là 0</td><td>Không hiện “Kỷ lục mới!”, không hiện dòng kỷ lục ở S1.</td></tr>
+      <tr><td>Thay đổi kích thước hoặc xoay màn hình khi đang chơi</td><td>Bố cục co giãn lại, lượt chơi không bị gián đoạn.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="pager">
+    <a href="03-man-hinh.html"><small>← Trước</small>03 Màn hình</a>
+    <a class="next" href="05-ke-hoach-test.html"><small>Tiếp →</small>05 Kế hoạch test</a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Tài liệu game Đập Lợn · 04 Quy tắc &amp; dữ liệu</div></footer>
+</body>
+</html>

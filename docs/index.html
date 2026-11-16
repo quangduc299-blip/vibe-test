@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mục lục — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html" aria-current="page">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Tài liệu thiết kế · v1.0</span>
+    <h1>Đập Lợn</h1>
+    <p class="lead">Mini game trên trình duyệt: 30 giây, lưới 3×3, bấm trúng lợn được 1 điểm. <span class="script">Nhanh tay lên!</span></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Mục lục</h2>
+  <div class="cards">
+    <a class="card" href="01-tong-quan.html"><span class="no">01</span><h3>Tổng quan</h3><p>Mục tiêu, người chơi, vòng chơi cốt lõi, phạm vi phiên bản và các quyết định đã chốt.</p></a>
+    <a class="card" href="02-chuc-nang.html"><span class="no">02</span><h3>Chức năng</h3><p>Danh sách chức năng có mã số, mức ưu tiên và tiêu chí chấp nhận cho từng chức năng.</p></a>
+    <a class="card" href="03-man-hinh.html"><span class="no">03</span><h3>Màn hình</h3><p>Năm màn hình và lớp phủ, phác thảo bố cục, thành phần giao diện và luồng chuyển màn.</p></a>
+    <a class="card" href="04-quy-tac-du-lieu.html"><span class="no">04</span><h3>Quy tắc &amp; dữ liệu</h3><p>Máy trạng thái, bảng thông số độ khó, thuật toán chọn ô, đồng hồ, điểm và dữ liệu lưu trữ.</p></a>
+    <a class="card" href="05-ke-hoach-test.html"><span class="no">05</span><h3>Kế hoạch test</h3><p>Phạm vi test, môi trường, danh sách ca kiểm thử gắn với tiêu chí hoàn thành.</p></a>
+  </div>
+
+  <h2>Quyết định từ buổi phỏng vấn</h2>
+  <p>Các điểm còn để ngỏ trong <code>YEU-CAU.md</code> đã được chốt như sau. Đây là căn cứ cho toàn bộ tài liệu.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Câu hỏi</th><th>Quyết định</th><th>Thay đổi so với YEU-CAU.md</th></tr></thead>
+      <tbody>
+        <tr><td class="id">Q1</td><td>Điểm cao nhất (high score)</td><td>Bắt buộc; lưu lâu dài bằng <code>localStorage</code>; hiện ở màn hình Bắt đầu và Kết quả; báo “Kỷ lục mới!”.</td><td>Từ “tuỳ chọn” thành <span class="tag must">Bắt buộc</span></td></tr>
+        <tr><td class="id">Q2</td><td>Độ khó trong lượt</td><td>Tăng dần theo 3 chặng 10 giây. 10 giây đầu tối đa 1 lợn; 20 giây sau tối đa 2 lợn, hiện ngắn hơn, nghỉ ít hơn.</td><td>Cụ thể hoá phần “gợi ý”; vẫn trong khung 0.6–1 s và 0.3–0.8 s.</td></tr>
+        <tr><td class="id">Q3</td><td>Hình con lợn</td><td>SVG vẽ riêng, phong cách nhãn dán viền đen; 2 trạng thái: bình thường và bị đập (nhăn mặt).</td><td>Bổ sung</td></tr>
+        <tr><td class="id">Q4</td><td>Âm thanh</td><td>Có âm đập trúng, âm đếm ngược và âm hết giờ, tạo bằng Web Audio; nút tắt tiếng, nhớ lựa chọn. Không có nhạc nền.</td><td>Từ “ngoài phạm vi” thành <span class="tag should">Nên có</span></td></tr>
+        <tr><td class="id">Q5</td><td>Bắt đầu lượt / rời tab</td><td>Đếm 3-2-1 trước khi tính 30 giây. Rời tab hoặc thu nhỏ thì tự tạm dừng; quay lại bấm “Tiếp tục”, đếm 3-2-1 rồi chơi tiếp.</td><td>Bổ sung: 30 giây tính sau khi đếm xong, không phải ngay lúc bấm.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <span class="eyebrow">Lưu ý</span>
+    <p>Bộ tài liệu này chỉ mô tả yêu cầu và thiết kế, chưa có code game. Giao diện tài liệu và game cùng dùng <code>design/tokens.css</code>.</p>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Nguồn: <code>YEU-CAU.md</code> + buổi phỏng vấn làm rõ ý tưởng (5 câu).</div></footer>
+</body>
+</html>

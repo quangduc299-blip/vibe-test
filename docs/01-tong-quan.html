@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 Tổng quan — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html" aria-current="page">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">01 · Tổng quan</span>
+    <h1>Tổng quan dự án</h1>
+    <p class="lead">Game là gì, dành cho ai, chơi thế nào và phiên bản đầu tiên làm đến đâu.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Trong trang này">
+    <span class="eyebrow">Trong trang này</span>
+    <ol>
+      <li><a href="#gioi-thieu">Giới thiệu</a></li>
+      <li><a href="#muc-tieu">Mục tiêu</a></li>
+      <li><a href="#nguoi-choi">Người chơi &amp; thiết bị</a></li>
+      <li><a href="#vong-choi">Vòng chơi cốt lõi</a></li>
+      <li><a href="#phong-cach">Phong cách hình ảnh &amp; âm thanh</a></li>
+      <li><a href="#pham-vi">Phạm vi phiên bản 1</a></li>
+      <li><a href="#cong-nghe">Công nghệ</a></li>
+      <li><a href="#thuat-ngu">Thuật ngữ</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="gioi-thieu"><span class="num">1</span>Giới thiệu</h2>
+  <p><strong>Đập Lợn</strong> là mini game phản xạ chạy trên trình duyệt. Bàn chơi là lưới 3×3 gồm 9 hang. Lợn nhô lên ngẫu nhiên khỏi các hang trong thời gian ngắn rồi thụt xuống. Người chơi bấm chuột hoặc chạm vào lợn đang nhô lên để “đập”. Mỗi lần trúng được 1 điểm. Một lượt chơi kéo dài <strong>30 giây</strong>.</p>
+
+  <h2 id="muc-tieu"><span class="num">2</span>Mục tiêu</h2>
+  <ul>
+    <li><strong>Với người chơi:</strong> một trò vui ngắn, chơi lại nhiều lần để phá kỷ lục của chính mình.</li>
+    <li><strong>Với sản phẩm:</strong> vào chơi trong 1 lần bấm, không cần đăng nhập hay cài đặt, chạy tốt trên cả máy tính lẫn điện thoại.</li>
+    <li><strong>Chỉ số thành công gợi ý:</strong> người chơi mới hiểu luật mà không cần đọc thêm; tỷ lệ bấm “Chơi lại” sau lượt đầu cao.</li>
+  </ul>
+
+  <h2 id="nguoi-choi"><span class="num">3</span>Người chơi &amp; thiết bị</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Nhóm</th><th>Thiết bị</th><th>Cách điều khiển</th><th>Ghi chú</th></tr></thead>
+      <tbody>
+        <tr><td>Người chơi phổ thông, mọi lứa tuổi</td><td>Điện thoại (dọc)</td><td>Chạm</td><td>Ưu tiên chính; ô phải đủ lớn để chạm chính xác (tối thiểu 72×72 px).</td></tr>
+        <tr><td>Người chơi trên máy tính</td><td>Desktop, laptop</td><td>Chuột</td><td>Lưới căn giữa, không phóng quá lớn.</td></tr>
+        <tr><td>Người chơi trên máy tính bảng</td><td>Tablet (dọc/ngang)</td><td>Chạm</td><td>Bố cục co giãn theo cạnh ngắn của màn hình.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Trình duyệt hỗ trợ: Chrome, Edge, Firefox bản mới nhất trên máy tính; Chrome Android và Safari iOS trên điện thoại.</p>
+
+  <h2 id="vong-choi"><span class="num">4</span>Vòng chơi cốt lõi</h2>
+  <div class="flow" aria-label="Luồng chơi">
+    <span class="node">Màn hình Bắt đầu</span><span class="arrow">→</span>
+    <span class="node">Đếm 3-2-1</span><span class="arrow">→</span>
+    <span class="node">Chơi 30 giây</span><span class="arrow">→</span>
+    <span class="node">Kết quả</span><span class="arrow">→</span>
+    <span class="node">Chơi lại</span><span class="arrow">↺</span>
+  </div>
+  <ol>
+    <li>Người chơi thấy tên game, hướng dẫn 1 câu và điểm cao nhất, rồi bấm <strong>“Bắt đầu”</strong>.</li>
+    <li>Đếm ngược 3-2-1 để người chơi chuẩn bị. Đồng hồ 30 giây chưa chạy.</li>
+    <li>Trong 30 giây, lợn nhô lên ngẫu nhiên và nhịp chơi tăng dần qua 3 chặng. Mỗi lần đập trúng được +1 điểm, cập nhật ngay.</li>
+    <li>Hết giờ: lợn biến mất, lưới bị khoá, màn hình kết quả hiện ra cùng điểm số. Nếu phá kỷ lục, game báo “Kỷ lục mới!”.</li>
+    <li>Bấm <strong>“Chơi lại”</strong> để bắt đầu lượt mới (qua bước đếm 3-2-1), hoặc <strong>“Về màn hình chính”</strong>.</li>
+  </ol>
+  <div class="callout">
+    <span class="eyebrow">Tạm dừng tự động</span>
+    <p>Nếu người chơi chuyển tab, thu nhỏ trình duyệt hoặc khoá màn hình khi đang chơi hay đang đếm ngược, game tự tạm dừng và giữ nguyên điểm và thời gian còn lại. Khi quay lại, người chơi bấm “Tiếp tục”, game đếm 3-2-1 rồi chơi tiếp.</p>
+  </div>
+
+  <h2 id="phong-cach"><span class="num">5</span>Phong cách hình ảnh &amp; âm thanh</h2>
+  <ul>
+    <li><strong>Giao diện:</strong> theo <code>design/tokens.css</code>: nền vàng sọc chéo bạc hà, chữ tiêu đề rộng và rất đậm, viền đen dày, bóng cứng kiểu nhãn dán, nút đen bo góc nhỏ.</li>
+    <li><strong>Con lợn:</strong> hình SVG phẳng vẽ riêng, màu hồng, viền đen dày. Có 2 trạng thái: <em>bình thường</em> (mắt tròn, cười) và <em>bị đập</em> (mắt hình dấu “×”, má đỏ, có hình sao nổ nhỏ).</li>
+    <li><strong>Hang:</strong> ô bo góc màu than chì, lợn trồi lên từ mép dưới ô.</li>
+    <li><strong>Âm thanh:</strong> tạo trực tiếp bằng Web Audio API, không cần file âm thanh. Gồm âm “hự” khi đập trúng, tiếng bíp khi đếm 3-2-1 và âm báo hết giờ. Không có nhạc nền. Có nút tắt tiếng.</li>
+  </ul>
+
+  <h2 id="pham-vi"><span class="num">6</span>Phạm vi phiên bản 1</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Trong phạm vi</th><th>Ngoài phạm vi (để phiên bản sau)</th></tr></thead>
+      <tbody>
+        <tr><td>Lưới 3×3, lượt 30 giây, +1 điểm mỗi lần trúng</td><td>Chọn mức độ khó (Dễ/Thường/Khó)</td></tr>
+        <tr><td>Độ khó tăng dần trong lượt (3 chặng)</td><td>Trừ điểm khi bấm hụt</td></tr>
+        <tr><td>Đếm 3-2-1, tự tạm dừng khi rời tab</td><td>Combo, điểm thưởng, lợn đặc biệt</td></tr>
+        <tr><td>Điểm cao nhất lưu lâu dài trên máy</td><td>Bảng xếp hạng online</td></tr>
+        <tr><td>Hiệu ứng khi đập trúng, âm thanh và nút tắt tiếng</td><td>Nhạc nền</td></tr>
+        <tr><td>Giao diện co giãn cho desktop, tablet, điện thoại</td><td>Chơi nhiều người, tài khoản người dùng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="cong-nghe"><span class="num">7</span>Công nghệ</h2>
+  <ul>
+    <li>HTML, CSS, JavaScript thuần, không framework. Chạy được khi mở file trực tiếp hoặc qua web server tĩnh.</li>
+    <li>Dùng <code>design/tokens.css</code> cho màu, chữ, khoảng cách và bo góc.</li>
+    <li>Lưu dữ liệu bằng <code>localStorage</code>. Âm thanh bằng Web Audio API.</li>
+    <li>Nhận thao tác bằng Pointer Events (<code>pointerdown</code>) để dùng chung cho chuột và cảm ứng.</li>
+    <li>Font tải từ Google Fonts; khi không có mạng thì dùng font dự phòng của hệ thống.</li>
+  </ul>
+
+  <h2 id="thuat-ngu"><span class="num">8</span>Thuật ngữ</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Thuật ngữ</th><th>Nghĩa</th></tr></thead>
+      <tbody>
+        <tr><td>Lượt (round)</td><td>Một lần chơi 30 giây, từ lúc đếm 3-2-1 xong đến khi hết giờ.</td></tr>
+        <tr><td>Ô / hang (cell)</td><td>Một trong 9 vị trí trên lưới, đánh số 0–8 từ trái sang phải, trên xuống dưới.</td></tr>
+        <tr><td>Lần xuất hiện (spawn)</td><td>Một lần lợn nhô lên ở một ô, kéo dài trong “thời gian hiện”.</td></tr>
+        <tr><td>Đập trúng (hit)</td><td>Bấm vào ô khi lợn ở ô đó đang ở trạng thái <code>UP</code>.</td></tr>
+        <tr><td>Chặng (phase)</td><td>Đoạn 10 giây trong lượt, mỗi chặng có thông số độ khó riêng.</td></tr>
+        <tr><td>Kỷ lục (high score)</td><td>Điểm cao nhất từng đạt trên trình duyệt này.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pager">
+    <a href="index.html"><small>← Trước</small>Mục lục</a>
+    <a class="next" href="02-chuc-nang.html"><small>Tiếp →</small>02 Chức năng</a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Tài liệu game Đập Lợn · 01 Tổng quan</div></footer>
+</body>
+</html>

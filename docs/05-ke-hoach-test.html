@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 Kế hoạch test — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html" aria-current="page">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">05 · Kế hoạch test</span>
+    <h1>Kế hoạch test</h1>
+    <p class="lead">Kiểm thử những gì, trên thiết bị nào, theo các ca cụ thể nào. Mỗi ca gắn với mã chức năng và tiêu chí hoàn thành (DoD) trong <code>YEU-CAU.md</code>.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Trong trang này">
+    <span class="eyebrow">Trong trang này</span>
+    <ol>
+      <li><a href="#chien-luoc">Chiến lược</a></li>
+      <li><a href="#moi-truong">Môi trường</a></li>
+      <li><a href="#ca-test">Ca kiểm thử</a></li>
+      <li><a href="#logic">Kiểm thử logic tự động</a></li>
+      <li><a href="#dod">Đối chiếu tiêu chí hoàn thành</a></li>
+      <li><a href="#tieu-chi">Tiêu chí đạt &amp; báo lỗi</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="chien-luoc"><span class="num">1</span>Chiến lược</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Loại</th><th>Mục đích</th><th>Cách làm</th></tr></thead>
+    <tbody>
+      <tr><td>Kiểm thử logic tự động</td><td>Đảm bảo quy tắc chọn ô, độ khó, đồng hồ, tính điểm và lưu trữ đúng tuyệt đối</td><td>Tách phần logic khỏi phần giao diện; dùng đồng hồ giả và hàm ngẫu nhiên có thể cố định giá trị</td></tr>
+      <tr><td>Kiểm thử thủ công chức năng</td><td>Chạy toàn bộ ca ở mục 3 trên trình duyệt thật</td><td>Theo bảng ca test; ghi kết quả Đạt / Không đạt</td></tr>
+      <tr><td>Kiểm thử thiết bị &amp; trình duyệt</td><td>Bố cục, cảm ứng, âm thanh, hiệu năng</td><td>Ma trận mục 2; chạy nhóm ca có nhãn “Thiết bị”</td></tr>
+      <tr><td>Kiểm thử hồi quy</td><td>Không phát sinh lỗi mới khi sửa</td><td>Chạy lại kiểm thử tự động và các ca <span class="tag must">P1</span> sau mỗi lần sửa</td></tr>
+    </tbody>
+  </table></div>
+  <p>Mức ưu tiên ca test: <span class="tag must">P1</span> gắn với DoD, phải đạt hết. <span class="tag should">P2</span> chức năng đã chốt nhưng không chặn phát hành. <span class="tag">P3</span> trải nghiệm.</p>
+
+  <h2 id="moi-truong"><span class="num">2</span>Môi trường</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Thiết bị</th><th>Hệ điều hành</th><th>Trình duyệt</th><th>Kích thước kiểm tra</th></tr></thead>
+    <tbody>
+      <tr><td>Desktop / laptop</td><td>Windows 11</td><td>Chrome, Edge, Firefox (mới nhất)</td><td>1366×768, 1920×1080</td></tr>
+      <tr><td>Điện thoại Android</td><td>Android 13+</td><td>Chrome</td><td>360×800 dọc và ngang</td></tr>
+      <tr><td>iPhone</td><td>iOS 17+</td><td>Safari</td><td>390×844 dọc và ngang</td></tr>
+      <tr><td>Máy tính bảng</td><td>iPadOS / Android</td><td>Safari / Chrome</td><td>768×1024 dọc và ngang</td></tr>
+      <tr><td>Giả lập</td><td>—</td><td>Chrome DevTools</td><td>320×568 (nhỏ nhất)</td></tr>
+    </tbody>
+  </table></div>
+  <p>Trước mỗi đợt test: xoá dữ liệu trang (<code>localStorage</code>) trừ khi ca test yêu cầu có sẵn kỷ lục.</p>
+
+  <h2 id="ca-test"><span class="num">3</span>Ca kiểm thử</h2>
+
+  <h3>3.1 Bắt đầu &amp; đếm ngược</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-01</td><td><span class="tag must">P1</span></td><td>Mở game lần đầu (chưa có dữ liệu).</td><td>Hiện S1: tiêu đề, hướng dẫn, nút “Bắt đầu”; không hiện dòng kỷ lục; không lỗi console.</td><td>F-01, F-10</td></tr>
+      <tr><td class="id">TC-02</td><td><span class="tag must">P1</span></td><td>Bấm “Bắt đầu”.</td><td>Hiện lớp phủ 3 → 2 → 1 → “Đập!”, mỗi số khoảng 1 s; điểm 0, đồng hồ đứng ở 30; lưới không có lợn.</td><td>F-02</td></tr>
+      <tr><td class="id">TC-03</td><td><span class="tag must">P1</span></td><td>Bấm vào các ô trong lúc đang đếm 3-2-1.</td><td>Không có phản hồi, điểm vẫn 0.</td><td>F-02</td></tr>
+      <tr><td class="id">TC-04</td><td><span class="tag should">P2</span></td><td>Bấm “Bắt đầu” 5 lần thật nhanh.</td><td>Chỉ một lần đếm ngược, chỉ một đồng hồ chạy (đồng hồ không chạy nhanh gấp đôi).</td><td>F-01</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.2 Lưới &amp; lợn xuất hiện</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-05</td><td><span class="tag must">P1</span></td><td>Quan sát lưới ở mọi kích thước trong ma trận mục 2.</td><td>Đúng 9 ô 3×3, ô vuông bằng nhau, không tràn hay có thanh cuộn ngang; mỗi ô ≥ 72 px.</td><td>F-03, DoD 1</td></tr>
+      <tr><td class="id">TC-06</td><td><span class="tag must">P1</span></td><td>Chơi 1 lượt không bấm gì, quan sát và ghi lại vị trí lợn.</td><td>Lợn xuất hiện liên tục ở nhiều ô khác nhau; không có ô nào có lợn 2 lần liền nhau; không thấy chu kỳ lặp.</td><td>F-04, DoD 2</td></tr>
+      <tr><td class="id">TC-07</td><td><span class="tag must">P1</span></td><td>Quan sát 10 giây đầu.</td><td>Không lúc nào có quá 1 lợn.</td><td>F-04</td></tr>
+      <tr><td class="id">TC-08</td><td><span class="tag must">P1</span></td><td>Quan sát 20 giây sau.</td><td>Có lúc 2 lợn cùng hiện, không bao giờ quá 2; lợn ở chặng 3 hiện ngắn hơn chặng 1 rõ rệt.</td><td>F-04</td></tr>
+      <tr><td class="id">TC-09</td><td><span class="tag should">P2</span></td><td>Quan sát 0.3 s cuối của lượt.</td><td>Không có lợn mới xuất hiện.</td><td>F-04</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.3 Đập lợn &amp; tính điểm</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-10</td><td><span class="tag must">P1</span></td><td>Bấm trúng 1 lợn đang hiện.</td><td>Điểm tăng đúng 1 ngay lập tức; lợn đổi hình nhăn mặt rồi thụt xuống.</td><td>F-05, DoD 3</td></tr>
+      <tr><td class="id">TC-11</td><td><span class="tag must">P1</span></td><td>Bấm vào ô trống 10 lần.</td><td>Điểm không đổi, không âm, không lỗi console.</td><td>F-05, DoD 4</td></tr>
+      <tr><td class="id">TC-12</td><td><span class="tag must">P1</span></td><td>Bấm liên tục 5 lần thật nhanh vào cùng 1 lợn.</td><td>Chỉ +1.</td><td>F-05, DoD 4</td></tr>
+      <tr><td class="id">TC-13</td><td><span class="tag must">P1</span></td><td>Bấm vào ô ngay sau khi lợn vừa thụt xuống.</td><td>Không cộng điểm.</td><td>F-05, DoD 4</td></tr>
+      <tr><td class="id">TC-14</td><td><span class="tag must">P1</span></td><td>Bấm sát mép giữa 2 ô kề nhau, một ô có lợn, một ô trống.</td><td>Chỉ ô nằm dưới điểm chạm phản hồi; không “click xuyên”.</td><td>F-05, DoD 10</td></tr>
+      <tr><td class="id">TC-15</td><td><span class="tag should">P2</span></td><td>(Cảm ứng) Hai ngón chạm cùng lúc vào 2 lợn khác nhau.</td><td>+2.</td><td>F-05</td></tr>
+      <tr><td class="id">TC-16</td><td><span class="tag should">P2</span></td><td>(Cảm ứng) Chạm đúp nhanh, nhấn giữ trên lưới.</td><td>Trang không phóng to, không bôi đen chữ, không hiện menu.</td><td>NF-04</td></tr>
+      <tr><td class="id">TC-17</td><td><span class="tag must">P1</span></td><td>Đếm số lần đập trúng bằng tay trong 1 lượt (quay video nếu cần).</td><td>Điểm cuối = số lần trúng đã đếm.</td><td>F-05, DoD 7</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.4 Đồng hồ &amp; hết giờ</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-18</td><td><span class="tag must">P1</span></td><td>Bấm giờ bằng đồng hồ ngoài từ lúc “Đập!” biến mất đến lúc hiện “Hết giờ!”.</td><td>30 s ± 0.1 s; số giây giảm đều 30 → 0, không nhảy cóc hay đứng.</td><td>F-06, DoD 5</td></tr>
+      <tr><td class="id">TC-19</td><td><span class="tag must">P1</span></td><td>Bật chế độ giảm hiệu năng CPU 6× (DevTools) rồi lặp lại TC-18.</td><td>Vẫn 30 s ± 0.1 s.</td><td>F-06, DoD 5</td></tr>
+      <tr><td class="id">TC-20</td><td><span class="tag must">P1</span></td><td>Quan sát lúc đồng hồ về 0 khi có lợn đang hiện.</td><td>Mọi lợn biến mất ngay; hiện “Hết giờ!”; sau khoảng 0.8 s sang S5.</td><td>F-07, DoD 6</td></tr>
+      <tr><td class="id">TC-21</td><td><span class="tag must">P1</span></td><td>Bấm liên tục vào lưới trong lúc hiện “Hết giờ!”.</td><td>Điểm không đổi; điểm ở S5 bằng điểm lúc hết giờ.</td><td>F-07, DoD 6</td></tr>
+      <tr><td class="id">TC-22</td><td><span class="tag">P3</span></td><td>Quan sát 5 giây cuối.</td><td>Số giây chuyển đỏ và nhấp nháy.</td><td>F-06</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.5 Kết quả, chơi lại &amp; kỷ lục</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-23</td><td><span class="tag must">P1</span></td><td>Kết thúc lượt đầu với điểm N &gt; 0.</td><td>S5 hiện “Hết giờ!”, điểm N, “★ Kỷ lục mới!”, “Kỷ lục: N”.</td><td>F-08, F-10, DoD 7</td></tr>
+      <tr><td class="id">TC-24</td><td><span class="tag must">P1</span></td><td>Chơi lượt sau với điểm thấp hơn kỷ lục.</td><td>Không hiện huy hiệu; kỷ lục giữ nguyên.</td><td>F-10</td></tr>
+      <tr><td class="id">TC-25</td><td><span class="tag must">P1</span></td><td>Chơi lượt có điểm bằng đúng kỷ lục.</td><td>Không hiện huy hiệu “Kỷ lục mới!”.</td><td>F-10</td></tr>
+      <tr><td class="id">TC-26</td><td><span class="tag must">P1</span></td><td>Bấm “Chơi lại”.</td><td>Đếm 3-2-1; điểm 0; đồng hồ 30; lưới trống; nhịp lợn giống chặng 1.</td><td>F-09, DoD 8</td></tr>
+      <tr><td class="id">TC-27</td><td><span class="tag must">P1</span></td><td>Chơi liên tiếp 10 lượt (dùng “Chơi lại”).</td><td>Lượt nào cũng đúng 30 s, bắt đầu từ 0 điểm; lợn không nhiều dần qua các lượt; không lỗi console.</td><td>F-09, DoD 8</td></tr>
+      <tr><td class="id">TC-28</td><td><span class="tag must">P1</span></td><td>Có kỷ lục, đóng hẳn trình duyệt rồi mở lại game.</td><td>S1 hiện đúng “Kỷ lục: N”.</td><td>F-10, DoD 11</td></tr>
+      <tr><td class="id">TC-29</td><td><span class="tag should">P2</span></td><td>Bấm “Về màn hình chính”.</td><td>Về S1, kỷ lục đã cập nhật.</td><td>F-09</td></tr>
+      <tr><td class="id">TC-30</td><td><span class="tag should">P2</span></td><td>Sửa tay <code>dapLon.highScore</code> thành <code>"abc"</code>, <code>"-5"</code>, <code>"3.7"</code> rồi tải lại trang.</td><td>Coi là 0, không lỗi.</td><td>F-10</td></tr>
+      <tr><td class="id">TC-31</td><td><span class="tag should">P2</span></td><td>Mở game trong cửa sổ ẩn danh hoặc chặn bộ nhớ trang.</td><td>Game chạy bình thường; kỷ lục giữ được trong phiên đến khi tải lại trang.</td><td>F-10</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.6 Tạm dừng &amp; tiếp tục</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-32</td><td><span class="tag must">P1</span></td><td>Đang chơi (còn khoảng 18 s), chuyển sang tab khác 10 giây rồi quay lại.</td><td>Hiện S4 “Tạm dừng”, “Còn 18 giây”, điểm giữ nguyên; lưới không có lợn.</td><td>F-11</td></tr>
+      <tr><td class="id">TC-33</td><td><span class="tag must">P1</span></td><td>Từ TC-32, bấm “Tiếp tục”.</td><td>Đếm 3-2-1, sau đó đồng hồ tiếp tục từ 18; tổng thời gian chơi thực vẫn là 30 s.</td><td>F-11</td></tr>
+      <tr><td class="id">TC-34</td><td><span class="tag should">P2</span></td><td>Rời tab trong lúc đang đếm 3-2-1.</td><td>Tạm dừng; tiếp tục thì đếm lại từ 3.</td><td>F-11</td></tr>
+      <tr><td class="id">TC-35</td><td><span class="tag should">P2</span></td><td>(Điện thoại) Khoá màn hình khi đang chơi rồi mở lại.</td><td>Như TC-32.</td><td>F-11, Thiết bị</td></tr>
+      <tr><td class="id">TC-36</td><td><span class="tag">P3</span></td><td>Rời tab khi đang ở S1 hoặc S5.</td><td>Không có gì thay đổi.</td><td>F-11</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.7 Hiệu ứng, âm thanh &amp; thiết bị</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Ưu tiên</th><th>Các bước</th><th>Kết quả mong đợi</th><th>Liên quan</th></tr></thead>
+    <tbody>
+      <tr><td class="id">TC-37</td><td><span class="tag should">P2</span></td><td>Đập trúng lợn khi đang bật tiếng.</td><td>Nghe âm “hự”; thấy ô rung và “+1” bay lên.</td><td>F-12, F-13</td></tr>
+      <tr><td class="id">TC-38</td><td><span class="tag should">P2</span></td><td>Bấm nút loa để tắt, tải lại trang, chơi 1 lượt.</td><td>Biểu tượng là 🔇; không có âm thanh nào trong cả lượt.</td><td>F-13</td></tr>
+      <tr><td class="id">TC-39</td><td><span class="tag should">P2</span></td><td>Lắng nghe khi đếm và khi hết giờ.</td><td>Có tiếng bíp mỗi số đếm, bíp cao lúc “Đập!”, âm báo hết giờ.</td><td>F-13</td></tr>
+      <tr><td class="id">TC-40</td><td><span class="tag">P3</span></td><td>Bật “Giảm chuyển động” trong hệ điều hành, chơi 1 lượt.</td><td>Không rung, không bay; vẫn đổi hình khi đập trúng.</td><td>F-12</td></tr>
+      <tr><td class="id">TC-41</td><td><span class="tag must">P1</span></td><td>Chạy TC-05, TC-10, TC-18, TC-26 trên từng trình duyệt/thiết bị ở mục 2.</td><td>Đạt hết; console không có lỗi.</td><td>DoD 9, Thiết bị</td></tr>
+      <tr><td class="id">TC-42</td><td><span class="tag must">P1</span></td><td>Ghi hình hiệu năng (DevTools Performance) 10 s khi đang chơi trên điện thoại tầm trung.</td><td>Khung hình ổn định khoảng 60 fps; lợn trồi/thụt mượt, không giật.</td><td>NF-01, DoD 10</td></tr>
+      <tr><td class="id">TC-43</td><td><span class="tag should">P2</span></td><td>Xoay ngang/dọc khi đang chơi.</td><td>Bố cục tự điều chỉnh, lượt chơi không bị gián đoạn.</td><td>NF-03</td></tr>
+      <tr><td class="id">TC-44</td><td><span class="tag">P3</span></td><td>Chỉ dùng bàn phím: Tab tới “Bắt đầu”, Enter; ở S5 Tab tới “Chơi lại”, Enter.</td><td>Thấy rõ viền focus; nút hoạt động.</td><td>NF-05</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="logic"><span class="num">4</span>Kiểm thử logic tự động</h2>
+  <p>Phần logic (trạng thái, chọn ô, độ khó, đồng hồ, điểm, lưu trữ) cần được tách riêng, nhận đồng hồ và hàm ngẫu nhiên từ bên ngoài, để chạy kiểm thử mà không cần giao diện.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="id">Mã</th><th>Nội dung kiểm thử</th><th>Kỳ vọng</th></tr></thead>
+    <tbody>
+      <tr><td class="id">UT-01</td><td>Chọn ô 10 000 lần liên tiếp</td><td>Không bao giờ trùng ô trước hoặc ô đang bận; tần suất mỗi ô trong khoảng 11.1% ± 1.5%.</td></tr>
+      <tr><td class="id">UT-02</td><td>Thông số theo thời gian đã chơi 0, 9.99, 10, 19.99, 20, 29.99 s</td><td>Trả về đúng chặng 1, 1, 2, 2, 3, 3.</td></tr>
+      <tr><td class="id">UT-03</td><td>Mô phỏng 1 000 lượt với đồng hồ giả</td><td>Số lợn cùng lúc không vượt tối đa của chặng; thời gian hiện và nghỉ nằm trong khoảng cho phép.</td></tr>
+      <tr><td class="id">UT-04</td><td>Bấm vào ô theo từng trạng thái (EMPTY, UP, HIT) và từng trạng thái game</td><td>Chỉ trường hợp PLAYING + UP + còn giờ được +1.</td></tr>
+      <tr><td class="id">UT-05</td><td>Đồng hồ: tiến đồng hồ giả 29 999 ms rồi 1 ms</td><td>Hiển thị 1 rồi 0; chuyển sang ENDING đúng lúc 30 000 ms.</td></tr>
+      <tr><td class="id">UT-06</td><td>Tạm dừng tại 12 345 ms còn lại, chờ 60 s, tiếp tục</td><td>Thời gian còn lại vẫn là 12 345 ms khi vào PLAYING.</td></tr>
+      <tr><td class="id">UT-07</td><td>Khởi tạo lượt mới khi lượt cũ còn hẹn giờ đang chờ</td><td>Không có hẹn giờ cũ nào chạy sau khi khởi tạo.</td></tr>
+      <tr><td class="id">UT-08</td><td>Đọc kỷ lục với các giá trị <code>null</code>, <code>"abc"</code>, <code>"-1"</code>, <code>"2.5"</code>, <code>"99999"</code>, <code>"42"</code></td><td>0, 0, 0, 0, 0, 42.</td></tr>
+      <tr><td class="id">UT-09</td><td>Cập nhật kỷ lục với điểm nhỏ hơn, bằng và lớn hơn</td><td>Chỉ trường hợp lớn hơn được ghi và đánh dấu kỷ lục mới.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="dod"><span class="num">5</span>Đối chiếu tiêu chí hoàn thành (DoD)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>DoD</th><th>Nội dung (rút gọn)</th><th>Ca kiểm thử</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Lưới 3×3 đúng, co giãn</td><td>TC-05, TC-41, TC-43</td></tr>
+      <tr><td>2</td><td>Lợn xuất hiện ngẫu nhiên, không lặp chu kỳ</td><td>TC-06, UT-01</td></tr>
+      <tr><td>3</td><td>Trúng thì +1 ngay</td><td>TC-10, UT-04</td></tr>
+      <tr><td>4</td><td>Ô trống / lợn đã biến mất không cộng điểm, không lỗi</td><td>TC-11, TC-12, TC-13, UT-04</td></tr>
+      <tr><td>5</td><td>Đồng hồ 30 s chính xác</td><td>TC-18, TC-19, UT-05</td></tr>
+      <tr><td>6</td><td>Hết giờ: xoá lợn, khoá lưới, sang kết quả</td><td>TC-20, TC-21</td></tr>
+      <tr><td>7</td><td>Kết quả hiện đúng điểm</td><td>TC-17, TC-23</td></tr>
+      <tr><td>8</td><td>Chơi lại đặt lại đúng, nhiều lượt không lỗi tích luỹ</td><td>TC-26, TC-27, UT-07</td></tr>
+      <tr><td>9</td><td>Ổn định trên Chrome, Edge, Firefox</td><td>TC-41</td></tr>
+      <tr><td>10</td><td>Mượt, không click xuyên</td><td>TC-14, TC-42</td></tr>
+      <tr><td>11</td><td>Kỷ lục được lưu và hiển thị đúng</td><td>TC-23 → TC-25, TC-28, UT-08, UT-09</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="tieu-chi"><span class="num">6</span>Tiêu chí đạt &amp; báo lỗi</h2>
+  <ul>
+    <li><strong>Phát hành được</strong> khi: 100% ca <span class="tag must">P1</span> và kiểm thử tự động đạt; ít nhất 90% ca <span class="tag should">P2</span> đạt và các ca chưa đạt đã có kế hoạch sửa; không còn lỗi nghiêm trọng.</li>
+    <li><strong>Mức độ lỗi:</strong> <em>Nghiêm trọng</em> (treo game, tính sai điểm, đồng hồ sai) · <em>Cao</em> (một chức năng bắt buộc không chạy trên một trình duyệt) · <em>Trung bình</em> (hiệu ứng hoặc âm thanh sai) · <em>Thấp</em> (lệch giao diện nhỏ).</li>
+    <li><strong>Báo lỗi gồm:</strong> mã ca test, thiết bị và trình duyệt, các bước tái hiện, kết quả thực tế so với mong đợi, ảnh hoặc video, nội dung console nếu có.</li>
+  </ul>
+
+  <div class="pager">
+    <a href="04-quy-tac-du-lieu.html"><small>← Trước</small>04 Quy tắc &amp; dữ liệu</a>
+    <a class="next" href="index.html"><small>Về →</small>Mục lục</a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Tài liệu game Đập Lợn · 05 Kế hoạch test</div></footer>
+</body>
+</html>

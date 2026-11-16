@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 Màn hình — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<!-- Hình lợn SVG (phác thảo tham khảo cho nhân vật) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="pig" viewBox="0 0 100 90">
+    <path d="M18 30 L14 6 L36 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M82 30 L86 6 L64 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="52" rx="40" ry="36" fill="#FF9AD3" stroke="#111" stroke-width="4"/>
+    <circle cx="35" cy="42" r="5" fill="#111"/>
+    <circle cx="65" cy="42" r="5" fill="#111"/>
+    <ellipse cx="50" cy="62" rx="16" ry="11" fill="#FF7AC6" stroke="#111" stroke-width="4"/>
+    <ellipse cx="44" cy="62" rx="3" ry="4" fill="#111"/>
+    <ellipse cx="56" cy="62" rx="3" ry="4" fill="#111"/>
+  </symbol>
+  <symbol id="pig-hit" viewBox="0 0 100 90">
+    <path d="M18 30 L14 6 L36 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M82 30 L86 6 L64 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="52" rx="40" ry="36" fill="#FF9AD3" stroke="#111" stroke-width="4"/>
+    <path d="M29 36 l12 12 M41 36 l-12 12 M59 36 l12 12 M71 36 l-12 12" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="24" cy="60" r="6" fill="#F0383E" opacity=".6"/>
+    <circle cx="76" cy="60" r="6" fill="#F0383E" opacity=".6"/>
+    <ellipse cx="50" cy="64" rx="16" ry="11" fill="#FF7AC6" stroke="#111" stroke-width="4"/>
+    <ellipse cx="44" cy="64" rx="3" ry="4" fill="#111"/>
+    <ellipse cx="56" cy="64" rx="3" ry="4" fill="#111"/>
+    <path d="M78 4 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1z" fill="#FFD60A" stroke="#111" stroke-width="2"/>
+  </symbol>
+</svg>
+
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html" aria-current="page">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">03 · Màn hình</span>
+    <h1>Màn hình &amp; luồng chuyển</h1>
+    <p class="lead">Ba màn hình chính, hai lớp phủ, phác thảo bố cục và thành phần trên từng màn hình. Phác thảo minh hoạ bố cục, không phải bản vẽ thiết kế cuối cùng.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Trong trang này">
+    <span class="eyebrow">Trong trang này</span>
+    <ol>
+      <li><a href="#danh-sach">Danh sách màn hình</a></li>
+      <li><a href="#luong">Luồng chuyển màn</a></li>
+      <li><a href="#phac-thao">Phác thảo bố cục</a></li>
+      <li><a href="#nhan-vat">Nhân vật lợn &amp; ô</a></li>
+      <li><a href="#chi-tiet">Thành phần từng màn hình</a></li>
+      <li><a href="#co-gian">Co giãn &amp; hướng màn hình</a></li>
+      <li><a href="#chu">Chữ hiển thị trong game</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="danh-sach"><span class="num">1</span>Danh sách màn hình</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th class="id">Mã</th><th>Tên</th><th>Loại</th><th>Chức năng liên quan</th></tr></thead>
+      <tbody>
+        <tr><td class="id">S1</td><td>Bắt đầu</td><td>Màn hình</td><td>F-01, F-10, F-13</td></tr>
+        <tr><td class="id">S2</td><td>Đếm ngược 3-2-1</td><td>Lớp phủ trên S3</td><td>F-02</td></tr>
+        <tr><td class="id">S3</td><td>Chơi</td><td>Màn hình</td><td>F-03 → F-07, F-12, F-13</td></tr>
+        <tr><td class="id">S4</td><td>Tạm dừng</td><td>Lớp phủ trên S3</td><td>F-11</td></tr>
+        <tr><td class="id">S5</td><td>Kết quả</td><td>Màn hình</td><td>F-08, F-09, F-10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="luong"><span class="num">2</span>Luồng chuyển màn</h2>
+  <div class="flow">
+    <span class="node">S1 Bắt đầu</span><span class="arrow">→</span><span class="node">S2 Đếm 3-2-1</span><span class="arrow">→</span><span class="node">S3 Chơi</span><span class="arrow">→</span><span class="node">S5 Kết quả</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Từ</th><th>Sự kiện</th><th>Đến</th></tr></thead>
+      <tbody>
+        <tr><td>S1</td><td>Bấm “Bắt đầu”</td><td>S2 (trên S3, lưới trống)</td></tr>
+        <tr><td>S2</td><td>Đếm xong (“Đập!” biến mất)</td><td>S3, đồng hồ chạy</td></tr>
+        <tr><td>S2 / S3</td><td>Trang bị ẩn (rời tab, thu nhỏ, khoá màn hình)</td><td>S4</td></tr>
+        <tr><td>S4</td><td>Bấm “Tiếp tục”</td><td>S2, sau đó về S3 với thời gian còn lại</td></tr>
+        <tr><td>S3</td><td>Thời gian còn lại = 0 (hiện “Hết giờ!” 0.8 s)</td><td>S5</td></tr>
+        <tr><td>S5</td><td>Bấm “Chơi lại”</td><td>S2 (lượt mới)</td></tr>
+        <tr><td>S5</td><td>Bấm “Về màn hình chính”</td><td>S1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="phac-thao"><span class="num">3</span>Phác thảo bố cục (điện thoại, màn hình dọc)</h2>
+  <div class="screens">
+    <figure style="margin:0">
+      <div class="mock" style="background:repeating-linear-gradient(-35deg,var(--color-yellow) 0 50px,var(--color-mint) 50px 80px)">
+        <div class="bar"><span></span><span>🔊</span></div>
+        <div class="body">
+          <svg width="90" height="81" aria-hidden="true"><use href="#pig"/></svg>
+          <div class="title">Đập<br>Lợn</div>
+          <div class="small">Bấm vào lợn khi nó xuất hiện.<br>Bạn có 30 giây!</div>
+          <span class="btn">Bắt đầu</span>
+          <div class="small"><strong>Kỷ lục: 27</strong></div>
+        </div>
+      </div>
+      <figcaption class="mock-caption"><strong>S1 · Bắt đầu</strong>: một hành động chính duy nhất.</figcaption>
+    </figure>
+
+    <figure style="margin:0">
+      <div class="mock">
+        <div class="bar"><span>Điểm 0</span><span>⏱ 30</span><span>🔊</span></div>
+        <div class="body">
+          <div class="progress"><span style="width:100%"></span></div>
+          <div class="grid">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="overlay"><div class="big">3</div><div class="small">Chuẩn bị…</div></div>
+      </div>
+      <figcaption class="mock-caption"><strong>S2 · Đếm 3-2-1</strong>: lưới hiện mờ phía sau, chưa nhận thao tác.</figcaption>
+    </figure>
+
+    <figure style="margin:0">
+      <div class="mock">
+        <div class="bar"><span>Điểm 12</span><span>⏱ 18</span><span>🔊</span></div>
+        <div class="body">
+          <div class="progress"><span style="width:60%"></span></div>
+          <div class="grid">
+            <div class="cell"></div><div class="cell up"><svg viewBox="0 0 100 90" aria-hidden="true"><use href="#pig"/></svg></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell hit"><svg viewBox="0 0 100 90" aria-hidden="true"><use href="#pig-hit"/></svg></div><div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="mock-caption"><strong>S3 · Chơi</strong>: một lợn đang lên (ô 1), một lợn vừa bị đập (ô 6).</figcaption>
+    </figure>
+
+    <figure style="margin:0">
+      <div class="mock">
+        <div class="bar"><span>Điểm 12</span><span>⏱ 18</span><span>🔊</span></div>
+        <div class="body">
+          <div class="progress"><span style="width:60%"></span></div>
+          <div class="grid">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="overlay">
+          <div class="title" style="color:var(--color-yellow)">Tạm dừng</div>
+          <div class="small">Còn 18 giây · Điểm 12</div>
+          <span class="btn" style="background:var(--color-yellow);color:var(--color-ink)">Tiếp tục</span>
+        </div>
+      </div>
+      <figcaption class="mock-caption"><strong>S4 · Tạm dừng</strong>: tự bật khi rời tab, giữ nguyên điểm và thời gian.</figcaption>
+    </figure>
+
+    <figure style="margin:0">
+      <div class="mock" style="background:var(--color-blue);color:var(--color-white)">
+        <div class="bar"><span></span><span>🔊</span></div>
+        <div class="body">
+          <div class="title">Hết giờ!</div>
+          <div class="small">Điểm của bạn</div>
+          <div class="big" style="color:var(--color-yellow)">31</div>
+          <span class="btn" style="background:var(--color-pink);color:var(--color-ink);border:2px solid var(--color-ink);transform:rotate(-4deg)">★ Kỷ lục mới!</span>
+          <div class="small">Kỷ lục: 31</div>
+          <span class="btn" style="background:var(--color-yellow);color:var(--color-ink)">Chơi lại</span>
+          <span class="btn ghost" style="color:var(--color-white);border-color:var(--color-white)">Về màn hình chính</span>
+        </div>
+      </div>
+      <figcaption class="mock-caption"><strong>S5 · Kết quả</strong>: điểm lớn ở giữa, huy hiệu kỷ lục khi phá kỷ lục.</figcaption>
+    </figure>
+  </div>
+
+  <h2 id="nhan-vat"><span class="num">4</span>Nhân vật lợn &amp; trạng thái ô</h2>
+  <div class="cards">
+    <div class="card" style="text-align:center"><svg width="120" height="108" aria-hidden="true"><use href="#pig"/></svg><h3>Bình thường</h3><p>Trạng thái <code>UP</code>. Mắt tròn, mũi hồng đậm, viền đen 4px.</p></div>
+    <div class="card" style="text-align:center"><svg width="120" height="108" aria-hidden="true"><use href="#pig-hit"/></svg><h3>Bị đập</h3><p>Trạng thái <code>HIT</code>. Mắt “×”, má đỏ, sao nổ vàng. Hiện 250 ms.</p></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Trạng thái ô</th><th>Hình ảnh</th><th>Nhận thao tác?</th></tr></thead>
+      <tbody>
+        <tr><td><code>EMPTY</code></td><td>Hang than chì <code>--color-charcoal</code>, không có lợn.</td><td>Có, nhưng không cộng điểm</td></tr>
+        <tr><td><code>UP</code></td><td>Nền hang chuyển sang <code>--color-mint</code>; lợn trượt lên từ mép dưới trong 120 ms.</td><td>Có, cộng điểm</td></tr>
+        <tr><td><code>HIT</code></td><td>Nền <code>--color-pink</code>; lợn nhăn mặt; ô rung; “+1” bay lên; sau 250 ms lợn trượt xuống.</td><td>Không</td></tr>
+        <tr><td>Lưới bị khoá</td><td>Toàn bộ lưới giảm độ sáng 40%, con trỏ chuột mặc định.</td><td>Không</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="chi-tiet"><span class="num">5</span>Thành phần từng màn hình</h2>
+
+  <h3>S1 · Bắt đầu</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Thành phần</th><th>Mô tả</th><th>Token</th></tr></thead>
+    <tbody>
+      <tr><td>Nền</td><td>Vàng sọc chéo bạc hà</td><td><code>--pattern-diagonal</code></td></tr>
+      <tr><td>Hình lợn</td><td>SVG trạng thái bình thường, nhún nhẹ lặp lại</td><td>—</td></tr>
+      <tr><td>Tiêu đề “Đập Lợn”</td><td>Chữ hiển thị rộng, rất đậm</td><td><code>--font-display</code>, <code>--text-5xl</code>, <code>--weight-black</code></td></tr>
+      <tr><td>Hướng dẫn</td><td>“Bấm vào lợn khi nó xuất hiện. Bạn có 30 giây!”</td><td><code>--text-lg</code></td></tr>
+      <tr><td>Nút “Bắt đầu”</td><td>Nút chính màu đen, cỡ lớn, nhận được focus</td><td><code>--radius-sm</code>, <code>--shadow-sticker</code> khi hover</td></tr>
+      <tr><td>Kỷ lục</td><td>“Kỷ lục: N”, ẩn khi N = 0</td><td><code>--text-sm</code>, <code>--weight-bold</code></td></tr>
+      <tr><td>Nút loa</td><td>Góc trên phải, 🔊 hoặc 🔇</td><td>Kích thước chạm ≥ 44 px</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>S2 · Đếm 3-2-1</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Thành phần</th><th>Mô tả</th></tr></thead>
+    <tbody>
+      <tr><td>Lớp phủ</td><td>Nền đen trong suốt 72%, phủ toàn bộ khu vực chơi.</td></tr>
+      <tr><td>Số đếm</td><td>“3”, “2”, “1” rồi “Đập!”, màu vàng, cỡ rất lớn; mỗi số phóng to từ 0.6 lên 1 bằng <code>--ease-pop</code>.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>S3 · Chơi</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Thành phần</th><th>Mô tả</th></tr></thead>
+    <tbody>
+      <tr><td>Thanh trên</td><td>Nền đen. Trái: “Điểm N”. Giữa: “⏱ S” (5 giây cuối chuyển màu <code>--color-danger</code>, nhấp nháy). Phải: nút loa.</td></tr>
+      <tr><td>Thanh tiến trình</td><td>Viền đen, phần đầy màu <code>--color-blue</code>, co dần mượt từ 100% về 0%.</td></tr>
+      <tr><td>Lưới 3×3</td><td>9 ô vuông, khoảng cách <code>--space-3</code>, bo <code>--radius-md</code>, viền đen.</td></tr>
+      <tr><td>“+1”</td><td>Chữ hiển thị đậm, bay lên 24 px và mờ dần trong 400 ms.</td></tr>
+      <tr><td>“Hết giờ!”</td><td>Khi hết giờ, nhãn xoay -4°, nền hồng, đè lên giữa lưới trong 0.8 s.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>S4 · Tạm dừng</h3>
+  <p>Lớp phủ như S2, có tiêu đề “Tạm dừng”, dòng “Còn S giây · Điểm N” và nút “Tiếp tục” màu vàng (nhận focus tự động).</p>
+
+  <h3>S5 · Kết quả</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Thành phần</th><th>Mô tả</th></tr></thead>
+    <tbody>
+      <tr><td>Nền</td><td>Dải xanh điện <code>--color-blue</code>, chữ trắng.</td></tr>
+      <tr><td>Tiêu đề</td><td>“Hết giờ!”</td></tr>
+      <tr><td>Điểm</td><td>Số rất lớn màu vàng, đếm nhảy từ 0 lên điểm thật trong 600 ms (bỏ qua khi bật giảm chuyển động).</td></tr>
+      <tr><td>Huy hiệu</td><td>“★ Kỷ lục mới!” trên nền hồng, xoay nhẹ; chỉ hiện khi phá kỷ lục.</td></tr>
+      <tr><td>Kỷ lục</td><td>“Kỷ lục: N” (đã cập nhật).</td></tr>
+      <tr><td>Nút</td><td>“Chơi lại” (chính, vàng, nhận focus tự động) và “Về màn hình chính” (viền).</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="co-gian"><span class="num">6</span>Co giãn &amp; hướng màn hình</h2>
+  <ul>
+    <li><strong>Điện thoại dọc (&lt; 600 px):</strong> bố cục một cột; lưới rộng khoảng 90% chiều ngang.</li>
+    <li><strong>Điện thoại ngang / màn hình thấp:</strong> lưới co theo chiều cao (60vh); thanh điểm và thời gian chuyển sang cột bên trái lưới.</li>
+    <li><strong>Tablet &amp; desktop:</strong> lưới tối đa 480 px, căn giữa; nền sọc chéo phủ toàn trang.</li>
+    <li>Mọi vùng chạm (ô, nút) ≥ 44×44 px; ô lưới ≥ 72×72 px.</li>
+  </ul>
+
+  <h2 id="chu"><span class="num">7</span>Chữ hiển thị trong game</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Vị trí</th><th>Nội dung</th></tr></thead>
+    <tbody>
+      <tr><td>S1 tiêu đề</td><td>Đập Lợn</td></tr>
+      <tr><td>S1 hướng dẫn</td><td>Bấm vào lợn khi nó xuất hiện. Bạn có 30 giây!</td></tr>
+      <tr><td>S1 nút</td><td>Bắt đầu</td></tr>
+      <tr><td>S1/S5 kỷ lục</td><td>Kỷ lục: {N}</td></tr>
+      <tr><td>S2</td><td>3 · 2 · 1 · Đập!</td></tr>
+      <tr><td>S3 thanh trên</td><td>Điểm {N} · ⏱ {S}</td></tr>
+      <tr><td>S4</td><td>Tạm dừng · Còn {S} giây · Điểm {N} · Tiếp tục</td></tr>
+      <tr><td>S5</td><td>Hết giờ! · Điểm của bạn · ★ Kỷ lục mới! · Chơi lại · Về màn hình chính</td></tr>
+      <tr><td>Nút loa (aria-label)</td><td>Tắt tiếng / Bật tiếng</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="pager">
+    <a href="02-chuc-nang.html"><small>← Trước</small>02 Chức năng</a>
+    <a class="next" href="04-quy-tac-du-lieu.html"><small>Tiếp →</small>04 Quy tắc &amp; dữ liệu</a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Tài liệu game Đập Lợn · 03 Màn hình</div></footer>
+</body>
+</html>

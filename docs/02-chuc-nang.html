@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 Chức năng — Tài liệu game Đập Lợn</title>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Tài liệu">
+  <div class="wrap">
+    <a class="brand" href="index.html">Đập Lợn · Docs</a>
+    <a class="nav" href="index.html">Mục lục</a>
+    <a class="nav" href="01-tong-quan.html">01 Tổng quan</a>
+    <a class="nav" href="02-chuc-nang.html" aria-current="page">02 Chức năng</a>
+    <a class="nav" href="03-man-hinh.html">03 Màn hình</a>
+    <a class="nav" href="04-quy-tac-du-lieu.html">04 Quy tắc &amp; dữ liệu</a>
+    <a class="nav" href="05-ke-hoach-test.html">05 Kế hoạch test</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">02 · Chức năng</span>
+    <h1>Danh sách chức năng</h1>
+    <p class="lead">Mỗi chức năng có mã số để tham chiếu từ kế hoạch test, mức ưu tiên và tiêu chí chấp nhận.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Trong trang này">
+    <span class="eyebrow">Trong trang này</span>
+    <ol>
+      <li><a href="#uu-tien">Mức ưu tiên</a></li>
+      <li><a href="#tong-hop">Bảng tổng hợp</a></li>
+      <li><a href="#chi-tiet">Chi tiết chức năng</a></li>
+      <li><a href="#phi-chuc-nang">Yêu cầu phi chức năng</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="uu-tien"><span class="num">1</span>Mức ưu tiên</h2>
+  <p><span class="tag must">Bắt buộc</span> thiếu thì chưa hoàn thành. <span class="tag should">Nên có</span> đã chốt trong phiên bản 1 nhưng không chặn việc phát hành nếu trễ. <span class="tag new">Mới</span> là chức năng bổ sung sau buổi phỏng vấn, không có trong <code>YEU-CAU.md</code> gốc.</p>
+
+  <h2 id="tong-hop"><span class="num">2</span>Bảng tổng hợp</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th class="id">Mã</th><th>Chức năng</th><th>Ưu tiên</th><th>Nguồn</th></tr></thead>
+      <tbody>
+        <tr><td class="id">F-01</td><td>Bắt đầu lượt chơi</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.4, §4.1</td></tr>
+        <tr><td class="id">F-02</td><td>Đếm ngược 3-2-1</td><td><span class="tag must">Bắt buộc</span> <span class="tag new">Mới</span></td><td>Phỏng vấn Q5</td></tr>
+        <tr><td class="id">F-03</td><td>Lưới 3×3</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.1, DoD 1</td></tr>
+        <tr><td class="id">F-04</td><td>Lợn xuất hiện ngẫu nhiên, tăng dần độ khó</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.2, Phỏng vấn Q2</td></tr>
+        <tr><td class="id">F-05</td><td>Đập lợn và tính điểm</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.3, §3</td></tr>
+        <tr><td class="id">F-06</td><td>Đồng hồ đếm ngược 30 giây</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.4, DoD 5</td></tr>
+        <tr><td class="id">F-07</td><td>Kết thúc lượt khi hết giờ</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.5, DoD 6</td></tr>
+        <tr><td class="id">F-08</td><td>Màn hình kết quả</td><td><span class="tag must">Bắt buộc</span></td><td>YC §4.3, DoD 7</td></tr>
+        <tr><td class="id">F-09</td><td>Chơi lại / Về màn hình chính</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.7, DoD 8</td></tr>
+        <tr><td class="id">F-10</td><td>Điểm cao nhất lưu lâu dài</td><td><span class="tag must">Bắt buộc</span></td><td>YC DoD 11, Phỏng vấn Q1</td></tr>
+        <tr><td class="id">F-11</td><td>Tự tạm dừng &amp; tiếp tục</td><td><span class="tag must">Bắt buộc</span> <span class="tag new">Mới</span></td><td>Phỏng vấn Q5</td></tr>
+        <tr><td class="id">F-12</td><td>Hiệu ứng khi đập trúng</td><td><span class="tag should">Nên có</span></td><td>YC §4.2, Phỏng vấn Q3</td></tr>
+        <tr><td class="id">F-13</td><td>Âm thanh &amp; nút tắt tiếng</td><td><span class="tag should">Nên có</span> <span class="tag new">Mới</span></td><td>Phỏng vấn Q4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="chi-tiet"><span class="num">3</span>Chi tiết chức năng</h2>
+
+  <h3 id="f01">F-01 · Bắt đầu lượt chơi</h3>
+  <p>Ở màn hình Bắt đầu, bấm nút “Bắt đầu” sẽ khởi tạo lượt mới (điểm = 0, thời gian = 30 giây, lưới trống) và chuyển sang bước đếm 3-2-1.</p>
+  <ul>
+    <li>Nút chỉ nhận 1 lần bấm. Bấm liên tục nhiều lần không tạo nhiều lượt hay nhiều bộ đếm giờ.</li>
+    <li>Lần bấm đầu tiên cũng dùng để kích hoạt âm thanh (trình duyệt chặn âm thanh trước khi người dùng tương tác).</li>
+  </ul>
+
+  <h3 id="f02">F-02 · Đếm ngược 3-2-1</h3>
+  <ul>
+    <li>Lớp phủ lên màn hình chơi, hiện lần lượt “3”, “2”, “1”, mỗi số 1 giây, kèm tiếng bíp. Sau đó hiện “Đập!” trong 0.4 giây.</li>
+    <li>Trong lúc đếm: lưới đã hiển thị nhưng chưa có lợn và không nhận thao tác; đồng hồ đứng yên ở 30.</li>
+    <li>Đồng hồ 30 giây bắt đầu chạy đúng lúc lớp phủ “Đập!” biến mất.</li>
+  </ul>
+
+  <h3 id="f03">F-03 · Lưới 3×3</h3>
+  <ul>
+    <li>Luôn có đúng 9 ô, xếp thành 3 hàng × 3 cột, các ô hình vuông bằng nhau.</li>
+    <li>Kích thước lưới = <code>min(90vw, 60vh, 480px)</code>; mỗi ô tối thiểu 72×72 px.</li>
+    <li>Lưới không bị vỡ hay tràn ở chiều rộng 320 px trở lên, cả màn hình dọc lẫn ngang.</li>
+  </ul>
+
+  <h3 id="f04">F-04 · Lợn xuất hiện ngẫu nhiên, tăng dần độ khó</h3>
+  <ul>
+    <li>Lợn xuất hiện liên tục trong suốt 30 giây. Mỗi lần xuất hiện, lợn hiện trong một khoảng ngẫu nhiên rồi tự thụt xuống nếu không bị đập.</li>
+    <li>Độ khó chia 3 chặng 10 giây. Số lợn tối đa cùng lúc, thời gian hiện và khoảng nghỉ giữa các lần xuất hiện thay đổi theo chặng (bảng thông số ở <a href="04-quy-tac-du-lieu.html#do-kho">trang 04</a>).</li>
+    <li>Lần xuất hiện mới không rơi vào ô vừa có lợn ở lần xuất hiện ngay trước, và không rơi vào ô đang có lợn.</li>
+    <li>Thứ tự các ô không lặp theo chu kỳ dễ đoán.</li>
+  </ul>
+
+  <h3 id="f05">F-05 · Đập lợn và tính điểm</h3>
+  <ul>
+    <li>Bấm hoặc chạm vào ô có lợn đang ở trạng thái <code>UP</code>: điểm +1 ngay lập tức, ô chuyển sang trạng thái <code>HIT</code>.</li>
+    <li>Bấm vào ô trống, ô đang <code>HIT</code> hoặc lợn vừa thụt xuống: không cộng điểm, không trừ điểm, không báo lỗi.</li>
+    <li>Mỗi lần xuất hiện chỉ được tính điểm tối đa 1 lần, kể cả khi bấm nhiều lần thật nhanh hoặc chạm nhiều ngón cùng lúc.</li>
+    <li>Thao tác được tính theo ô nằm dưới điểm chạm. Không “click xuyên” sang ô bên cạnh.</li>
+    <li>Điểm hiển thị là số nguyên ≥ 0, không giới hạn trên.</li>
+  </ul>
+
+  <h3 id="f06">F-06 · Đồng hồ đếm ngược 30 giây</h3>
+  <ul>
+    <li>Hiển thị cả số giây còn lại (làm tròn lên, từ 30 về 0) và thanh tiến trình chạy mượt.</li>
+    <li>Thời gian tính theo đồng hồ hệ thống (<code>performance.now()</code>), không cộng dồn từng tick, nên không bị trôi khi máy chậm.</li>
+    <li>Sai lệch so với 30 giây thực tế không quá ±100 ms.</li>
+    <li>5 giây cuối: số giây chuyển màu đỏ và nhấp nháy nhẹ để báo sắp hết giờ.</li>
+  </ul>
+
+  <h3 id="f07">F-07 · Kết thúc lượt khi hết giờ</h3>
+  <ul>
+    <li>Khi thời gian còn lại ≤ 0: dừng sinh lợn, huỷ mọi bộ hẹn giờ, mọi lợn đang hiện biến mất ngay, lưới khoá thao tác.</li>
+    <li>Phát âm báo hết giờ, hiện chữ “Hết giờ!” trên lưới khoảng 0.8 giây rồi chuyển sang màn hình Kết quả.</li>
+    <li>Thao tác xảy ra sau thời điểm hết giờ không được tính điểm.</li>
+  </ul>
+
+  <h3 id="f08">F-08 · Màn hình kết quả</h3>
+  <ul>
+    <li>Hiện tiêu đề “Hết giờ!”, điểm của lượt vừa chơi (chữ rất lớn) và điểm cao nhất.</li>
+    <li>Nếu điểm lượt này lớn hơn kỷ lục cũ: hiện huy hiệu “Kỷ lục mới!” và lưu kỷ lục mới.</li>
+    <li>Có hai nút: “Chơi lại” (nút chính) và “Về màn hình chính” (nút phụ).</li>
+  </ul>
+
+  <h3 id="f09">F-09 · Chơi lại / Về màn hình chính</h3>
+  <ul>
+    <li>“Chơi lại”: đặt lại điểm = 0, thời gian = 30, lưới trống, chặng = 1, sau đó vào bước đếm 3-2-1.</li>
+    <li>“Về màn hình chính”: quay lại màn hình Bắt đầu, kỷ lục đã được cập nhật.</li>
+    <li>Chơi liên tiếp 20 lượt không làm tích luỹ bộ hẹn giờ, trình nghe sự kiện hay rò rỉ bộ nhớ. Mỗi lượt có nhịp giống hệt lượt đầu.</li>
+  </ul>
+
+  <h3 id="f10">F-10 · Điểm cao nhất lưu lâu dài</h3>
+  <ul>
+    <li>Lưu trong <code>localStorage</code>. Đóng trình duyệt rồi mở lại vẫn còn.</li>
+    <li>Hiện ở màn hình Bắt đầu (ẩn nếu chưa có kỷ lục, tức bằng 0) và ở màn hình Kết quả.</li>
+    <li>Nếu <code>localStorage</code> không dùng được (chế độ riêng tư, bị chặn): game vẫn chạy bình thường và giữ kỷ lục trong bộ nhớ cho đến khi tải lại trang.</li>
+    <li>Dữ liệu hỏng (không phải số nguyên ≥ 0) thì coi như kỷ lục = 0.</li>
+  </ul>
+
+  <h3 id="f11">F-11 · Tự tạm dừng &amp; tiếp tục</h3>
+  <ul>
+    <li>Khi trang bị ẩn (sự kiện <code>visibilitychange</code>, trạng thái <code>hidden</code>) trong lúc chơi hoặc đang đếm 3-2-1: game tạm dừng ngay.</li>
+    <li>Khi tạm dừng: đồng hồ đứng yên, các lợn đang hiện thụt xuống mà không tính điểm, không sinh lợn mới. Điểm giữ nguyên.</li>
+    <li>Lớp phủ “Tạm dừng” có nút “Tiếp tục”. Bấm nút thì đếm 3-2-1 rồi chơi tiếp với đúng số thời gian còn lại.</li>
+    <li>Thời gian ở trạng thái tạm dừng không bị trừ vào 30 giây.</li>
+    <li>Ở màn hình Bắt đầu và Kết quả, rời tab không gây tác động gì.</li>
+  </ul>
+
+  <h3 id="f12">F-12 · Hiệu ứng khi đập trúng</h3>
+  <ul>
+    <li>Lợn đổi sang hình nhăn mặt, ô rung nhẹ (khoảng 150 ms), chữ “+1” bay lên rồi mờ dần, sau đó lợn thụt xuống trong 250 ms.</li>
+    <li>Lợn trồi lên và thụt xuống bằng chuyển động trượt dọc (khoảng 120 ms), không bị giật.</li>
+    <li>Nếu hệ điều hành bật chế độ giảm chuyển động (<code>prefers-reduced-motion</code>): bỏ rung và bay, chỉ đổi hình.</li>
+  </ul>
+
+  <h3 id="f13">F-13 · Âm thanh &amp; nút tắt tiếng</h3>
+  <ul>
+    <li>Các âm: “hự” khi đập trúng, bíp khi đếm 3-2-1, bíp cao khi hiện “Đập!”, âm báo hết giờ. Không có nhạc nền.</li>
+    <li>Nút loa ở góc trên, có trên mọi màn hình. Bấm để bật/tắt tiếng. Lựa chọn được lưu và giữ cho lần sau.</li>
+    <li>Mặc định bật tiếng. Nếu trình duyệt không hỗ trợ Web Audio thì ẩn nút và game vẫn chạy.</li>
+  </ul>
+
+  <h2 id="phi-chuc-nang"><span class="num">4</span>Yêu cầu phi chức năng</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th class="id">Mã</th><th>Yêu cầu</th><th>Tiêu chí</th></tr></thead>
+      <tbody>
+        <tr><td class="id">NF-01</td><td>Hiệu năng</td><td>Hoạt ảnh đạt 60 fps trên điện thoại tầm trung; từ lúc chạm đến lúc điểm đổi dưới 50 ms.</td></tr>
+        <tr><td class="id">NF-02</td><td>Tương thích</td><td>Chrome, Edge, Firefox (máy tính); Chrome Android, Safari iOS. Không có lỗi trong console.</td></tr>
+        <tr><td class="id">NF-03</td><td>Co giãn</td><td>Hiển thị tốt từ 320 px đến 1920 px, cả màn hình dọc lẫn ngang. Không có thanh cuộn ngang.</td></tr>
+        <tr><td class="id">NF-04</td><td>Cảm ứng</td><td>Không phóng to khi chạm đúp, không bôi đen chữ, không hiện menu khi nhấn giữ trên lưới.</td></tr>
+        <tr><td class="id">NF-05</td><td>Trợ năng</td><td>Nút là thẻ <code>&lt;button&gt;</code> dùng được bằng bàn phím; độ tương phản chữ ≥ 4.5:1; khi kết thúc lượt, điểm được đọc qua <code>aria-live</code>.</td></tr>
+        <tr><td class="id">NF-06</td><td>Gọn nhẹ</td><td>Không dùng thư viện ngoài. Tổng dung lượng không tính font dưới 100 KB.</td></tr>
+        <tr><td class="id">NF-07</td><td>Ngôn ngữ</td><td>Toàn bộ chữ trong game là tiếng Việt có dấu, hiển thị đúng với mọi font đang dùng.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pager">
+    <a href="01-tong-quan.html"><small>← Trước</small>01 Tổng quan</a>
+    <a class="next" href="03-man-hinh.html"><small>Tiếp →</small>03 Màn hình</a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">Tài liệu game Đập Lợn · 02 Chức năng</div></footer>
+</body>
+</html>
