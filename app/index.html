@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFD60A">
+<title>Đập Lợn</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%B7%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<!-- Hình lợn SVG (docs/03 §4) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="pig" viewBox="0 0 100 90">
+    <path d="M18 30 L14 6 L36 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M82 30 L86 6 L64 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="52" rx="40" ry="36" fill="#FF9AD3" stroke="#111" stroke-width="4"/>
+    <circle cx="35" cy="42" r="5" fill="#111"/>
+    <circle cx="65" cy="42" r="5" fill="#111"/>
+    <ellipse cx="50" cy="62" rx="16" ry="11" fill="#FF7AC6" stroke="#111" stroke-width="4"/>
+    <ellipse cx="44" cy="62" rx="3" ry="4" fill="#111"/>
+    <ellipse cx="56" cy="62" rx="3" ry="4" fill="#111"/>
+  </symbol>
+  <symbol id="pig-hit" viewBox="0 0 100 90">
+    <path d="M18 30 L14 6 L36 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M82 30 L86 6 L64 20 Z" fill="#FF7AC6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="52" rx="40" ry="36" fill="#FF9AD3" stroke="#111" stroke-width="4"/>
+    <path d="M29 36 l12 12 M41 36 l-12 12 M59 36 l12 12 M71 36 l-12 12" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="24" cy="60" r="6" fill="#F0383E" opacity=".6"/>
+    <circle cx="76" cy="60" r="6" fill="#F0383E" opacity=".6"/>
+    <ellipse cx="50" cy="64" rx="16" ry="11" fill="#FF7AC6" stroke="#111" stroke-width="4"/>
+    <ellipse cx="44" cy="64" rx="3" ry="4" fill="#111"/>
+    <ellipse cx="56" cy="64" rx="3" ry="4" fill="#111"/>
+    <path d="M78 4 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1z" fill="#FFD60A" stroke="#111" stroke-width="2"/>
+  </symbol>
+</svg>
+
+<div id="app" class="app" data-state="IDLE">
+  <button id="mute" class="mute" type="button" aria-label="Tắt tiếng" aria-pressed="false">🔊</button>
+
+  <!-- S1 · Bắt đầu -->
+  <section id="s-start" class="screen screen--start" aria-labelledby="title">
+    <div class="start-inner">
+      <svg class="hero-pig" viewBox="0 0 100 90" aria-hidden="true"><use href="#pig"/></svg>
+      <h1 id="title" class="title">Đập Lợn</h1>
+      <p class="howto">Bấm vào lợn khi nó xuất hiện. Bạn có 30 giây!</p>
+      <button id="btn-start" class="btn btn--lg" type="button">Bắt đầu</button>
+      <p id="start-high" class="high" hidden>Kỷ lục: <span id="start-high-val">0</span></p>
+    </div>
+  </section>
+
+  <!-- S3 · Chơi (S2 và S4 là lớp phủ bên trên) -->
+  <section id="s-play" class="screen screen--play" hidden aria-label="Màn hình chơi">
+    <div class="hud">
+      <div class="hud-score">Điểm <span id="score">0</span></div>
+      <div id="time-wrap" class="hud-time">⏱ <span id="time">30</span></div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+    <div class="board">
+      <div id="grid" class="grid locked">
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 1" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 2" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 3" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 4" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 5" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 6" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 7" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 8" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+        <button class="cell" type="button" tabindex="-1" aria-label="Ô 9" data-state="EMPTY" data-face="normal"><span class="pig"><svg viewBox="0 0 100 90" aria-hidden="true"><use class="face-normal" href="#pig"/><use class="face-hit" href="#pig-hit"/></svg></span></button>
+      </div>
+      <div id="ending" class="ending" hidden>Hết giờ!</div>
+    </div>
+
+    <!-- S2 · Đếm 3-2-1 -->
+    <div id="ov-countdown" class="overlay" hidden>
+      <div id="cd-label" class="cd" aria-live="assertive">3</div>
+    </div>
+
+    <!-- S4 · Tạm dừng -->
+    <div id="ov-pause" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="pause-title">
+      <h2 id="pause-title" class="overlay-title">Tạm dừng</h2>
+      <p id="pause-info" class="overlay-info"></p>
+      <button id="btn-resume" class="btn btn--yellow btn--lg" type="button">Tiếp tục</button>
+    </div>
+  </section>
+
+  <!-- S5 · Kết quả -->
+  <section id="s-result" class="screen screen--result" hidden aria-labelledby="result-title">
+    <div class="result-inner">
+      <h2 id="result-title" class="title title--result">Hết giờ!</h2>
+      <p class="result-label">Điểm của bạn</p>
+      <p id="result-score" class="result-score">0</p>
+      <p id="badge" class="badge" hidden>★ Kỷ lục mới!</p>
+      <p class="high high--result">Kỷ lục: <span id="result-high">0</span></p>
+      <div class="result-actions">
+        <button id="btn-again" class="btn btn--yellow btn--lg" type="button">Chơi lại</button>
+        <button id="btn-home" class="btn btn--ghost-light" type="button">Về màn hình chính</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="sr" class="sr-only" aria-live="polite"></div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
