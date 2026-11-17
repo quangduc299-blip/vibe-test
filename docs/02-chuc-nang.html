@@ -51,7 +51,7 @@
         <tr><td class="id">F-03</td><td>Lưới 3×3</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.1, DoD 1</td></tr>
         <tr><td class="id">F-04</td><td>Lợn xuất hiện ngẫu nhiên, tăng dần độ khó</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.2, Phỏng vấn Q2</td></tr>
         <tr><td class="id">F-05</td><td>Đập lợn và tính điểm</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.3, §3</td></tr>
-        <tr><td class="id">F-06</td><td>Đồng hồ đếm ngược 30 giây</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.4, DoD 5</td></tr>
+        <tr><td class="id">F-06</td><td>Đồng hồ đếm ngược 20 giây</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.4, DoD 5</td></tr>
         <tr><td class="id">F-07</td><td>Kết thúc lượt khi hết giờ</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.5, DoD 6</td></tr>
         <tr><td class="id">F-08</td><td>Màn hình kết quả</td><td><span class="tag must">Bắt buộc</span></td><td>YC §4.3, DoD 7</td></tr>
         <tr><td class="id">F-09</td><td>Chơi lại / Về màn hình chính</td><td><span class="tag must">Bắt buộc</span></td><td>YC §2.7, DoD 8</td></tr>
@@ -66,7 +66,7 @@
   <h2 id="chi-tiet"><span class="num">3</span>Chi tiết chức năng</h2>
 
   <h3 id="f01">F-01 · Bắt đầu lượt chơi</h3>
-  <p>Ở màn hình Bắt đầu, bấm nút “Bắt đầu” sẽ khởi tạo lượt mới (điểm = 0, thời gian = 30 giây, lưới trống) và chuyển sang bước đếm 3-2-1.</p>
+  <p>Ở màn hình Bắt đầu, bấm nút “Bắt đầu” sẽ khởi tạo lượt mới (điểm = 0, thời gian = 20 giây, lưới trống) và chuyển sang bước đếm 3-2-1.</p>
   <ul>
     <li>Nút chỉ nhận 1 lần bấm. Bấm liên tục nhiều lần không tạo nhiều lượt hay nhiều bộ đếm giờ.</li>
     <li>Lần bấm đầu tiên cũng dùng để kích hoạt âm thanh (trình duyệt chặn âm thanh trước khi người dùng tương tác).</li>
@@ -75,8 +75,8 @@
   <h3 id="f02">F-02 · Đếm ngược 3-2-1</h3>
   <ul>
     <li>Lớp phủ lên màn hình chơi, hiện lần lượt “3”, “2”, “1”, mỗi số 1 giây, kèm tiếng bíp. Sau đó hiện “Đập!” trong 0.4 giây.</li>
-    <li>Trong lúc đếm: lưới đã hiển thị nhưng chưa có lợn và không nhận thao tác; đồng hồ đứng yên ở 30.</li>
-    <li>Đồng hồ 30 giây bắt đầu chạy đúng lúc lớp phủ “Đập!” biến mất.</li>
+    <li>Trong lúc đếm: lưới đã hiển thị nhưng chưa có lợn và không nhận thao tác; đồng hồ đứng yên ở 20.</li>
+    <li>Đồng hồ 20 giây bắt đầu chạy đúng lúc lớp phủ “Đập!” biến mất.</li>
   </ul>
 
   <h3 id="f03">F-03 · Lưới 3×3</h3>
@@ -88,8 +88,8 @@
 
   <h3 id="f04">F-04 · Lợn xuất hiện ngẫu nhiên, tăng dần độ khó</h3>
   <ul>
-    <li>Lợn xuất hiện liên tục trong suốt 30 giây. Mỗi lần xuất hiện, lợn hiện trong một khoảng ngẫu nhiên rồi tự thụt xuống nếu không bị đập.</li>
-    <li>Độ khó chia 3 chặng 10 giây. Số lợn tối đa cùng lúc, thời gian hiện và khoảng nghỉ giữa các lần xuất hiện thay đổi theo chặng (bảng thông số ở <a href="04-quy-tac-du-lieu.html#do-kho">trang 04</a>).</li>
+    <li>Lợn xuất hiện liên tục trong suốt 20 giây. Mỗi lần xuất hiện, lợn hiện trong một khoảng ngẫu nhiên rồi tự thụt xuống nếu không bị đập.</li>
+    <li>Độ khó chia 3 chặng đều nhau, mỗi chặng khoảng 6,7 giây. Số lợn tối đa cùng lúc, thời gian hiện và khoảng nghỉ giữa các lần xuất hiện thay đổi theo chặng (bảng thông số ở <a href="04-quy-tac-du-lieu.html#do-kho">trang 04</a>).</li>
     <li>Lần xuất hiện mới không rơi vào ô vừa có lợn ở lần xuất hiện ngay trước, và không rơi vào ô đang có lợn.</li>
     <li>Thứ tự các ô không lặp theo chu kỳ dễ đoán.</li>
   </ul>
@@ -103,11 +103,11 @@
     <li>Điểm hiển thị là số nguyên ≥ 0, không giới hạn trên.</li>
   </ul>
 
-  <h3 id="f06">F-06 · Đồng hồ đếm ngược 30 giây</h3>
+  <h3 id="f06">F-06 · Đồng hồ đếm ngược 20 giây</h3>
   <ul>
-    <li>Hiển thị cả số giây còn lại (làm tròn lên, từ 30 về 0) và thanh tiến trình chạy mượt.</li>
+    <li>Hiển thị cả số giây còn lại (làm tròn lên, từ 20 về 0) và thanh tiến trình chạy mượt.</li>
     <li>Thời gian tính theo đồng hồ hệ thống (<code>performance.now()</code>), không cộng dồn từng tick, nên không bị trôi khi máy chậm.</li>
-    <li>Sai lệch so với 30 giây thực tế không quá ±100 ms.</li>
+    <li>Sai lệch so với 20 giây thực tế không quá ±100 ms.</li>
     <li>5 giây cuối: số giây chuyển màu đỏ và nhấp nháy nhẹ để báo sắp hết giờ.</li>
   </ul>
 
@@ -127,7 +127,7 @@
 
   <h3 id="f09">F-09 · Chơi lại / Về màn hình chính</h3>
   <ul>
-    <li>“Chơi lại”: đặt lại điểm = 0, thời gian = 30, lưới trống, chặng = 1, sau đó vào bước đếm 3-2-1.</li>
+    <li>“Chơi lại”: đặt lại điểm = 0, thời gian = 20, lưới trống, chặng = 1, sau đó vào bước đếm 3-2-1.</li>
     <li>“Về màn hình chính”: quay lại màn hình Bắt đầu, kỷ lục đã được cập nhật.</li>
     <li>Chơi liên tiếp 20 lượt không làm tích luỹ bộ hẹn giờ, trình nghe sự kiện hay rò rỉ bộ nhớ. Mỗi lượt có nhịp giống hệt lượt đầu.</li>
   </ul>
@@ -145,7 +145,7 @@
     <li>Khi trang bị ẩn (sự kiện <code>visibilitychange</code>, trạng thái <code>hidden</code>) trong lúc chơi hoặc đang đếm 3-2-1: game tạm dừng ngay.</li>
     <li>Khi tạm dừng: đồng hồ đứng yên, các lợn đang hiện thụt xuống mà không tính điểm, không sinh lợn mới. Điểm giữ nguyên.</li>
     <li>Lớp phủ “Tạm dừng” có nút “Tiếp tục”. Bấm nút thì đếm 3-2-1 rồi chơi tiếp với đúng số thời gian còn lại.</li>
-    <li>Thời gian ở trạng thái tạm dừng không bị trừ vào 30 giây.</li>
+    <li>Thời gian ở trạng thái tạm dừng không bị trừ vào 20 giây.</li>
     <li>Ở màn hình Bắt đầu và Kết quả, rời tab không gây tác động gì.</li>
   </ul>
 

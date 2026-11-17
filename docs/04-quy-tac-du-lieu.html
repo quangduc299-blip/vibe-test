@@ -87,13 +87,13 @@
   </ul>
 
   <h2 id="do-kho"><span class="num">3</span>Độ khó theo chặng</h2>
-  <p>Chặng được xác định theo <strong>thời gian đã chơi</strong> (30 − thời gian còn lại) tại thời điểm sinh lợn. Các giá trị “hiện” và “nghỉ” được lấy ngẫu nhiên đều trong khoảng.</p>
+  <p>Chặng được xác định theo <strong>thời gian đã chơi</strong> (20 − thời gian còn lại) tại thời điểm sinh lợn. Các giá trị “hiện” và “nghỉ” được lấy ngẫu nhiên đều trong khoảng.</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Chặng</th><th>Thời gian đã chơi</th><th>Đồng hồ hiển thị</th><th>Tối đa lợn cùng lúc</th><th>Thời gian hiện</th><th>Khoảng nghỉ</th></tr></thead>
     <tbody>
-      <tr><td><strong>1 · Khởi động</strong></td><td>0 – &lt;10 s</td><td>30 → 21</td><td>1</td><td>0.90 – 1.00 s</td><td>0.60 – 0.80 s</td></tr>
-      <tr><td><strong>2 · Tăng tốc</strong></td><td>10 – &lt;20 s</td><td>20 → 11</td><td>2</td><td>0.75 – 0.90 s</td><td>0.45 – 0.65 s</td></tr>
-      <tr><td><strong>3 · Nước rút</strong></td><td>20 – 30 s</td><td>10 → 0</td><td>2</td><td>0.60 – 0.75 s</td><td>0.30 – 0.50 s</td></tr>
+      <tr><td><strong>1 · Khởi động</strong></td><td>0 – &lt;6 667 ms</td><td>20 → 14</td><td>1</td><td>0.90 – 1.00 s</td><td>0.60 – 0.80 s</td></tr>
+      <tr><td><strong>2 · Tăng tốc</strong></td><td>6 667 – &lt;13 333 ms</td><td>14 → 7</td><td>2</td><td>0.75 – 0.90 s</td><td>0.45 – 0.65 s</td></tr>
+      <tr><td><strong>3 · Nước rút</strong></td><td>13 333 – 20 000 ms</td><td>7 → 0</td><td>2</td><td>0.60 – 0.75 s</td><td>0.30 – 0.50 s</td></tr>
     </tbody>
   </table></div>
   <div class="callout">
@@ -121,11 +121,11 @@
 
   <h2 id="dong-ho"><span class="num">5</span>Đồng hồ</h2>
   <ul>
-    <li>Thời lượng lượt: <strong>30 000 ms</strong>, chỉ tính trong trạng thái <code>PLAYING</code>.</li>
+    <li>Thời lượng lượt: <strong>20 000 ms</strong>, chỉ tính trong trạng thái <code>PLAYING</code>.</li>
     <li>Khi vào <code>PLAYING</code>: <code>endAt = performance.now() + remainingMs</code>.</li>
     <li>Mỗi khung hình (<code>requestAnimationFrame</code>): <code>remainingMs = max(0, endAt − now)</code>.</li>
-    <li>Số hiển thị = <code>ceil(remainingMs / 1000)</code>, nên hiện 30 ngay khi bắt đầu và về 0 đúng lúc hết giờ.</li>
-    <li>Thanh tiến trình = <code>remainingMs / 30000</code>.</li>
+    <li>Số hiển thị = <code>ceil(remainingMs / 1000)</code>, nên hiện 20 ngay khi bắt đầu và về 0 đúng lúc hết giờ.</li>
+    <li>Thanh tiến trình = <code>remainingMs / 20000</code>.</li>
     <li>Khi <code>remainingMs</code> = 0, chuyển ngay sang <code>ENDING</code> trong cùng khung hình.</li>
     <li>Cảnh báo sắp hết giờ khi số hiển thị ≤ 5.</li>
   </ul>
@@ -174,7 +174,7 @@
     <tbody>
       <tr><td><code>state</code></td><td>chuỗi</td><td><code>"COUNTDOWN"</code></td><td>Trạng thái game (mục 1)</td></tr>
       <tr><td><code>score</code></td><td>số nguyên</td><td>0</td><td>Điểm lượt hiện tại</td></tr>
-      <tr><td><code>remainingMs</code></td><td>số</td><td>30000</td><td>Thời gian còn lại</td></tr>
+      <tr><td><code>remainingMs</code></td><td>số</td><td>20000</td><td>Thời gian còn lại</td></tr>
       <tr><td><code>endAt</code></td><td>số | null</td><td>null</td><td>Mốc kết thúc theo <code>performance.now()</code></td></tr>
       <tr><td><code>cells</code></td><td>mảng 9 phần tử</td><td>9 × <code>{ state: "EMPTY", spawnId: null, timer: null }</code></td><td>Trạng thái từng ô</td></tr>
       <tr><td><code>lastCell</code></td><td>số 0–8 | null</td><td>null</td><td>Ô của lần xuất hiện trước</td></tr>
@@ -194,7 +194,7 @@
     <thead><tr><th>Tên</th><th>Giá trị</th><th>Dùng ở</th></tr></thead>
     <tbody>
       <tr><td><code>GRID_SIZE</code></td><td>3 (9 ô)</td><td>Lưới</td></tr>
-      <tr><td><code>ROUND_MS</code></td><td>30 000</td><td>Đồng hồ</td></tr>
+      <tr><td><code>ROUND_MS</code></td><td>20 000</td><td>Đồng hồ</td></tr>
       <tr><td><code>COUNTDOWN_STEP_MS</code></td><td>1 000 (×3) + 400 cho “Đập!”</td><td>Đếm 3-2-1</td></tr>
       <tr><td><code>FIRST_SPAWN_DELAY_MS</code></td><td>300</td><td>Lợn đầu tiên sau khi bắt đầu</td></tr>
       <tr><td><code>MIN_REMAINING_TO_SPAWN_MS</code></td><td>300</td><td>Không sinh lợn sát giờ</td></tr>

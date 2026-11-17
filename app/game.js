@@ -18,7 +18,7 @@
   var CONST = {
     GRID_SIZE: 3,
     CELL_COUNT: 9,
-    ROUND_MS: 30000,
+    ROUND_MS: 20000,
     COUNTDOWN_STEPS: [["3", 1000], ["2", 1000], ["1", 1000], ["Đập!", 400]],
     FIRST_SPAWN_DELAY_MS: 300,
     MIN_REMAINING_TO_SPAWN_MS: 300,
@@ -31,11 +31,14 @@
     KEY_MUTED: "dapLon.muted"
   };
 
-  // docs/04 §3 — Độ khó theo chặng (thời gian đã chơi, ms)
+  // docs/04 §3 — Độ khó theo chặng (thời gian đã chơi, ms).
+  // Lượt chia đều 3 chặng: 0 – 6 667 – 13 333 – 20 000 ms
+  var B1 = Math.round(CONST.ROUND_MS / 3);
+  var B2 = Math.round(CONST.ROUND_MS * 2 / 3);
   var PHASES = [
-    { id: 1, from: 0,     to: 10000, max: 1, show: [900, 1000], gap: [600, 800] },
-    { id: 2, from: 10000, to: 20000, max: 2, show: [750, 900],  gap: [450, 650] },
-    { id: 3, from: 20000, to: 30000, max: 2, show: [600, 750],  gap: [300, 500] }
+    { id: 1, from: 0,  to: B1,             max: 1, show: [900, 1000], gap: [600, 800] },
+    { id: 2, from: B1, to: B2,             max: 2, show: [750, 900],  gap: [450, 650] },
+    { id: 3, from: B2, to: CONST.ROUND_MS, max: 2, show: [600, 750],  gap: [300, 500] }
   ];
 
   function phaseFor(elapsedMs) {

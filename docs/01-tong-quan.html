@@ -43,7 +43,7 @@
   </nav>
 
   <h2 id="gioi-thieu"><span class="num">1</span>Giới thiệu</h2>
-  <p><strong>Đập Lợn</strong> là mini game phản xạ chạy trên trình duyệt. Bàn chơi là lưới 3×3 gồm 9 hang. Lợn nhô lên ngẫu nhiên khỏi các hang trong thời gian ngắn rồi thụt xuống. Người chơi bấm chuột hoặc chạm vào lợn đang nhô lên để “đập”. Mỗi lần trúng được 1 điểm. Một lượt chơi kéo dài <strong>30 giây</strong>.</p>
+  <p><strong>Đập Lợn</strong> là mini game phản xạ chạy trên trình duyệt. Bàn chơi là lưới 3×3 gồm 9 hang. Lợn nhô lên ngẫu nhiên khỏi các hang trong thời gian ngắn rồi thụt xuống. Người chơi bấm chuột hoặc chạm vào lợn đang nhô lên để “đập”. Mỗi lần trúng được 1 điểm. Một lượt chơi kéo dài <strong>20 giây</strong>.</p>
 
   <h2 id="muc-tieu"><span class="num">2</span>Mục tiêu</h2>
   <ul>
@@ -69,14 +69,14 @@
   <div class="flow" aria-label="Luồng chơi">
     <span class="node">Màn hình Bắt đầu</span><span class="arrow">→</span>
     <span class="node">Đếm 3-2-1</span><span class="arrow">→</span>
-    <span class="node">Chơi 30 giây</span><span class="arrow">→</span>
+    <span class="node">Chơi 20 giây</span><span class="arrow">→</span>
     <span class="node">Kết quả</span><span class="arrow">→</span>
     <span class="node">Chơi lại</span><span class="arrow">↺</span>
   </div>
   <ol>
     <li>Người chơi thấy tên game, hướng dẫn 1 câu và điểm cao nhất, rồi bấm <strong>“Bắt đầu”</strong>.</li>
-    <li>Đếm ngược 3-2-1 để người chơi chuẩn bị. Đồng hồ 30 giây chưa chạy.</li>
-    <li>Trong 30 giây, lợn nhô lên ngẫu nhiên và nhịp chơi tăng dần qua 3 chặng. Mỗi lần đập trúng được +1 điểm, cập nhật ngay.</li>
+    <li>Đếm ngược 3-2-1 để người chơi chuẩn bị. Đồng hồ 20 giây chưa chạy.</li>
+    <li>Trong 20 giây, lợn nhô lên ngẫu nhiên và nhịp chơi tăng dần qua 3 chặng. Mỗi lần đập trúng được +1 điểm, cập nhật ngay.</li>
     <li>Hết giờ: lợn biến mất, lưới bị khoá, màn hình kết quả hiện ra cùng điểm số. Nếu phá kỷ lục, game báo “Kỷ lục mới!”.</li>
     <li>Bấm <strong>“Chơi lại”</strong> để bắt đầu lượt mới (qua bước đếm 3-2-1), hoặc <strong>“Về màn hình chính”</strong>.</li>
   </ol>
@@ -98,7 +98,7 @@
     <table>
       <thead><tr><th>Trong phạm vi</th><th>Ngoài phạm vi (để phiên bản sau)</th></tr></thead>
       <tbody>
-        <tr><td>Lưới 3×3, lượt 30 giây, +1 điểm mỗi lần trúng</td><td>Chọn mức độ khó (Dễ/Thường/Khó)</td></tr>
+        <tr><td>Lưới 3×3, lượt 20 giây, +1 điểm mỗi lần trúng</td><td>Chọn mức độ khó (Dễ/Thường/Khó)</td></tr>
         <tr><td>Độ khó tăng dần trong lượt (3 chặng)</td><td>Trừ điểm khi bấm hụt</td></tr>
         <tr><td>Đếm 3-2-1, tự tạm dừng khi rời tab</td><td>Combo, điểm thưởng, lợn đặc biệt</td></tr>
         <tr><td>Điểm cao nhất lưu lâu dài trên máy</td><td>Bảng xếp hạng online</td></tr>
@@ -122,11 +122,11 @@
     <table>
       <thead><tr><th>Thuật ngữ</th><th>Nghĩa</th></tr></thead>
       <tbody>
-        <tr><td>Lượt (round)</td><td>Một lần chơi 30 giây, từ lúc đếm 3-2-1 xong đến khi hết giờ.</td></tr>
+        <tr><td>Lượt (round)</td><td>Một lần chơi 20 giây, từ lúc đếm 3-2-1 xong đến khi hết giờ.</td></tr>
         <tr><td>Ô / hang (cell)</td><td>Một trong 9 vị trí trên lưới, đánh số 0–8 từ trái sang phải, trên xuống dưới.</td></tr>
         <tr><td>Lần xuất hiện (spawn)</td><td>Một lần lợn nhô lên ở một ô, kéo dài trong “thời gian hiện”.</td></tr>
         <tr><td>Đập trúng (hit)</td><td>Bấm vào ô khi lợn ở ô đó đang ở trạng thái <code>UP</code>.</td></tr>
-        <tr><td>Chặng (phase)</td><td>Đoạn 10 giây trong lượt, mỗi chặng có thông số độ khó riêng.</td></tr>
+        <tr><td>Chặng (phase)</td><td>Một phần ba lượt chơi (khoảng 6,7 giây), mỗi chặng có thông số độ khó riêng.</td></tr>
         <tr><td>Kỷ lục (high score)</td><td>Điểm cao nhất từng đạt trên trình duyệt này.</td></tr>
       </tbody>
     </table>

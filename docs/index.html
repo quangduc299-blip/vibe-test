@@ -23,7 +23,7 @@
   <div class="wrap">
     <span class="eyebrow">Tài liệu thiết kế · v1.0</span>
     <h1>Đập Lợn</h1>
-    <p class="lead">Mini game trên trình duyệt: 30 giây, lưới 3×3, bấm trúng lợn được 1 điểm. <span class="script">Nhanh tay lên!</span></p>
+    <p class="lead">Mini game trên trình duyệt: 20 giây, lưới 3×3, bấm trúng lợn được 1 điểm. <span class="script">Nhanh tay lên!</span></p>
   </div>
 </header>
 
@@ -44,10 +44,11 @@
       <thead><tr><th>#</th><th>Câu hỏi</th><th>Quyết định</th><th>Thay đổi so với YEU-CAU.md</th></tr></thead>
       <tbody>
         <tr><td class="id">Q1</td><td>Điểm cao nhất (high score)</td><td>Bắt buộc; lưu lâu dài bằng <code>localStorage</code>; hiện ở màn hình Bắt đầu và Kết quả; báo “Kỷ lục mới!”.</td><td>Từ “tuỳ chọn” thành <span class="tag must">Bắt buộc</span></td></tr>
-        <tr><td class="id">Q2</td><td>Độ khó trong lượt</td><td>Tăng dần theo 3 chặng 10 giây. 10 giây đầu tối đa 1 lợn; 20 giây sau tối đa 2 lợn, hiện ngắn hơn, nghỉ ít hơn.</td><td>Cụ thể hoá phần “gợi ý”; vẫn trong khung 0.6–1 s và 0.3–0.8 s.</td></tr>
+        <tr><td class="id">Q2</td><td>Độ khó trong lượt</td><td>Tăng dần theo 3 chặng đều nhau (khoảng 6,7 giây mỗi chặng). Chặng đầu tối đa 1 lợn; hai chặng sau tối đa 2 lợn, hiện ngắn hơn, nghỉ ít hơn.</td><td>Cụ thể hoá phần “gợi ý”; vẫn trong khung 0.6–1 s và 0.3–0.8 s.</td></tr>
         <tr><td class="id">Q3</td><td>Hình con lợn</td><td>SVG vẽ riêng, phong cách nhãn dán viền đen; 2 trạng thái: bình thường và bị đập (nhăn mặt).</td><td>Bổ sung</td></tr>
         <tr><td class="id">Q4</td><td>Âm thanh</td><td>Có âm đập trúng, âm đếm ngược và âm hết giờ, tạo bằng Web Audio; nút tắt tiếng, nhớ lựa chọn. Không có nhạc nền.</td><td>Từ “ngoài phạm vi” thành <span class="tag should">Nên có</span></td></tr>
-        <tr><td class="id">Q5</td><td>Bắt đầu lượt / rời tab</td><td>Đếm 3-2-1 trước khi tính 30 giây. Rời tab hoặc thu nhỏ thì tự tạm dừng; quay lại bấm “Tiếp tục”, đếm 3-2-1 rồi chơi tiếp.</td><td>Bổ sung: 30 giây tính sau khi đếm xong, không phải ngay lúc bấm.</td></tr>
+        <tr><td class="id">Q5</td><td>Bắt đầu lượt / rời tab</td><td>Đếm 3-2-1 trước khi tính giờ. Rời tab hoặc thu nhỏ thì tự tạm dừng; quay lại bấm “Tiếp tục”, đếm 3-2-1 rồi chơi tiếp.</td><td>Bổ sung: thời gian lượt tính sau khi đếm xong, không phải ngay lúc bấm.</td></tr>
+        <tr><td class="id">C1</td><td>Thời gian một lượt</td><td><strong>20 giây</strong>. Ba chặng độ khó chia đều theo thời gian lượt (mốc 6 667 ms và 13 333 ms); thông số từng chặng giữ nguyên.</td><td>Đổi từ 30 giây của <code>YEU-CAU.md</code> (quyết định sau bản chạy đầu)</td></tr>
       </tbody>
     </table>
   </div>
